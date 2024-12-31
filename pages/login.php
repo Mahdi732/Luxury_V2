@@ -1,3 +1,6 @@
+<?php
+require_once "../classes/user.php";
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -89,10 +92,11 @@
                 <div class="absolute -inset-0.5 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur"></div>
                 <div class="relative bg-black/40 backdrop-blur-2xl p-12 border border-white/10">
                     <!-- Login Form -->
-                    <form id="loginForm" class="space-y-12">
+                    <form method="POST" action="../classes/user.php" id="loginForm" class="space-y-12">
                         <div class="space-y-6">
                             <label class="block text-xs tracking-[0.3em] text-white/50">EMAIL</label>
                             <input 
+                                name="email_log"
                                 type="email" 
                                 class="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-white transition-all duration-500 input-glow"
                                 placeholder="votre@email.com"
@@ -102,6 +106,7 @@
                         <div class="space-y-6">
                             <label class="block text-xs tracking-[0.3em] text-white/50">MOT DE PASSE</label>
                             <input 
+                                name="password_log"
                                 type="password" 
                                 class="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-white transition-all duration-500 input-glow"
                                 placeholder="••••••••"
@@ -145,7 +150,7 @@
                         </div>
                     </form>
 
-                    <form method="POST" action="/classes/user.php" id="signupForm" class="space-y-8 hidden">
+                    <form method="POST" action="../classes/user.php" id="signupForm" class="space-y-8 hidden">
                         <div class="grid grid-cols-2 gap-6">
                             <div class="space-y-4">
                                 <label class="block text-xs tracking-[0.3em] text-white/50">PRÉNOM</label>
