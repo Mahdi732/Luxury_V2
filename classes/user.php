@@ -35,9 +35,9 @@ class User {
                 $_SESSION["user_email"] = $result["email"];
                 $_SESSION["user_id"] = $result["user_id"];
                 if ($result["email"] === "admin@gmailcom") {
-                    header("location: ../../Luxury/index.php");
+                    header("location: ../index.php");
                 }else {
-                    header("location: ../../Luxury/index.php");
+                    header("location: ../index.php");
                 }
             }
         }else {
