@@ -145,13 +145,12 @@
                         </div>
                     </form>
 
-                    <!-- Signup Form -->
-                    <form id="signupForm" class="space-y-8 hidden">
-                        <!-- Name Inputs -->
+                    <form method="POST" action="/classes/user.php" id="signupForm" class="space-y-8 hidden">
                         <div class="grid grid-cols-2 gap-6">
                             <div class="space-y-4">
                                 <label class="block text-xs tracking-[0.3em] text-white/50">PRÉNOM</label>
                                 <input 
+                                    name="first_name"
                                     type="text" 
                                     class="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-white transition-all duration-500 input-glow"
                                 >
@@ -159,6 +158,7 @@
                             <div class="space-y-4">
                                 <label class="block text-xs tracking-[0.3em] text-white/50">NOM</label>
                                 <input 
+                                    name="last_name"
                                     type="text" 
                                     class="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-white transition-all duration-500 input-glow"
                                 >
@@ -168,6 +168,7 @@
                         <div class="space-y-4">
                             <label class="block text-xs tracking-[0.3em] text-white/50">EMAIL</label>
                             <input 
+                                name="email_sig"
                                 type="email" 
                                 class="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-white transition-all duration-500 input-glow"
                             >
@@ -184,6 +185,7 @@
                             <div class="space-y-4">
                                 <label class="block text-xs tracking-[0.3em] text-white/50">CONFIRMER LE MOT DE PASSE</label>
                                 <input 
+                                    name="password_sig"
                                     type="password" 
                                     class="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-white transition-all duration-500 input-glow"
                                 >
@@ -198,7 +200,7 @@
                             <span class="text-sm text-white/60">J'accepte les conditions générales d'utilisation et la politique de confidentialité</span>
                         </div>
 
-                        <button class="w-full py-4 border border-white/20 text-sm tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500 hover-glow group">
+                        <button type="submit" class="w-full py-4 border border-white/20 text-sm tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500 hover-glow group">
                             <span class="group-hover:tracking-[0.4em] transition-all duration-500">CRÉER MON COMPTE</span>
                         </button>
 

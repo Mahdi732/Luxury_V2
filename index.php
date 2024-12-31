@@ -29,7 +29,7 @@
                     <a href="#experience" class="text-sm hover:text-zinc-300">EXPERIENCE</a>
                     <a href="#contact" class="text-sm hover:text-zinc-300">CONTACT</a>
                     <button class="px-8 py-4 bg-white text-black text-sm hover:bg-zinc-100">
-                        BOOK NOW
+                        <a href="pages/login.php">Logni NOW</a>
                     </button>
                 </div>
             </div>
