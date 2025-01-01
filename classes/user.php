@@ -1,8 +1,10 @@
 <?php
-require_once('../connection/connect.php');
 session_start();
+require_once('../connection/connect.php');
+
 class User {
     private $conn;
+
     public function __construct(){
         $database = new Database();
         $this->conn = $database->connect();
@@ -17,54 +19,66 @@ class User {
         $stmt->bindParam(':password', $haspassword);
         $result = $stmt->execute();
         if ($result) {
-            header('location: ../index.php');
+            header('Location: ../pages/login.php');
             exit();
-        }else {
-            echo '<script>alert(" I am a rapist of whores and you are a son of bitch. ") </script>';
+        } else {
+            echo '<script>alert("I am a rapist of whores and you are a son of bitch.")</script>';
         }
     }
 
     public function signIn($email, $password){
         $sql = "SELECT * FROM users WHERE email = :email";
-        $stmt = $this ->conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
-        
-        if ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
             if (password_verify($password, $result['password'])) {
                 $_SESSION["user_email"] = $result["email"];
                 $_SESSION["user_id"] = $result["user_id"];
-                if ($result["email"] === "admin@gmailcom") {
-                    header("location: ../index.php");
+                
+                if ($email === "admin@gmail.com") {
+                    $_SESSION["admin"] = true;
                 }else {
-                    header("location: ../index.php");
+                    $_SESSION["admin"] = false;
                 }
+                header("Location: ../index.php");
+                exit();
             }
-        }else {
-            echo " I am a rapist of whores and you are a son of bitch. ";
         }
+    }
+
+    public function logOut(){
+        session_unset();
+        session_destroy();
+        header("location: ..index.php");
     }
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $first_name = $_POST["first_name"] ?? null;
-    $last_name =  $_POST["last_name"] ?? null;
+    $last_name = $_POST["last_name"] ?? null;
     $name = $first_name . " " . $last_name;
-    $username = $name ;
+    $username = $name;
     $email = $_POST["email_sig"] ?? null;
     $password = $_POST["password_sig"] ?? null;
     $email_log = $_POST["email_log"] ?? null;
     $password_log = $_POST["password_log"] ?? null;
-    if (isset($username, $email, $password)) {
+    $log_out = $_POST["log_out"];
+
+    if (!empty($username) && !empty($email) && !empty($password)) {
         $sign_up = new User();
         $sign_up->signUp($username, $email, $password);
     }
 
-    if (isset($email, $password)) {
+    if (!empty($email_log) && !empty($password_log)) {
         $sign_in = new User();
-        $sign_in->signIn($email_log ,$password_log);
+        $sign_in->signIn($email_log, $password_log);
     }
-    
+    if (isset($log_out)) {
+        $logOut = new User();
+        $logOut->logOut();
+    }
 }
-
 ?>

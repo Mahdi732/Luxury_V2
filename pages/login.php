@@ -40,24 +40,29 @@ require_once "../classes/user.php";
         }
     </style>
 </head>
-<body class="bg-[#0A0A0A] text-white min-h-screen flex items-center justify-center overflow-hidden">
-    <!-- Background Canvas for 3D Effects -->
+<body class="bg-[#0A0A0A] text-white min-h-screen">
+<nav class=" w-full z-50 bg-zinc-950/90 backdrop-blur-lg">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex justify-between items-center h-28">
+                <a href="#" class="text-xl syncopate">Luxury</a>
+                <div class="hidden lg:flex items-center gap-16">
+                    <a href="#fleet" class="text-sm hover:text-zinc-300">FLEET</a>
+                    <a href="#experience" class="text-sm hover:text-zinc-300">EXPERIENCE</a>
+                    <a href="#contact" class="text-sm hover:text-zinc-300">CONTACT</a>
+                    <button class="px-8 py-4 bg-white text-black text-sm hover:bg-zinc-100">
+                        <a href="pages/login.php">Logni NOW</a>
+                    </button>
+                    
+                </div>
+            </div>
+        </div>
+    </nav>
     <div class="fixed inset-0" id="canvas-container"></div>
-    
-    <!-- Overlay Gradient -->
     <div class="fixed inset-0 bg-gradient-to-br from-black/80 via-transparent to-black/80"></div>
 
-    <!-- Main Content -->
-    <div class="relative z-10 w-full max-w-screen-xl mx-auto px-6 flex min-h-screen items-center">
-        <div class="w-full grid grid-cols-2 gap-24">
-            <!-- Left Side - Branding -->
+    <div class="relative z-10 w-full max-w-screen-xl mx-auto px-6 h-screen flex items-center">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-24">
             <div class="space-y-12">
-                <div class="space-y-6">
-                    <h1 class="text-xs tracking-[0.3em] mt-[1rem] text-white/50">DRIVE & LOC</h1>
-                    <div class="h-[1px] w-12 bg-white/20"></div>
-                </div>
-                
-                <!-- Login Title -->
                 <div id="loginTitle" class="space-y-8">
                     <h2 class="text-8xl font-extralight leading-none gradient-text">
                         VOTRE<br/>
@@ -69,7 +74,6 @@ require_once "../classes/user.php";
                     </p>
                 </div>
 
-                <!-- Signup Title -->
                 <div id="signupTitle" class="space-y-8 hidden">
                     <h2 class="text-8xl font-extralight leading-none gradient-text">
                         CRÉEZ<br/>
@@ -87,7 +91,6 @@ require_once "../classes/user.php";
                 </div>
             </div>
 
-            <!-- Right Side - Forms Container -->
             <div class="relative">
                 <div class="absolute -inset-0.5 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur"></div>
                 <div class="relative bg-black/40 backdrop-blur-2xl p-12 border border-white/10">
@@ -123,7 +126,7 @@ require_once "../classes/user.php";
                             <a href="#" class="text-sm text-white/60 hover:text-white transition-colors">Mot de passe oublié?</a>
                         </div>
 
-                        <button class="w-full py-4 border border-white/20 text-sm tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500 hover-glow group">
+                        <button type="submit" class="w-full py-4 border border-white/20 text-sm tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500 hover-glow group">
                             <span class="group-hover:tracking-[0.4em] transition-all duration-500">CONNEXION</span>
                         </button>
 

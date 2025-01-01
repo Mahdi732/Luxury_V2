@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,6 +10,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Commissioner:wght@200;300;400;500&display=swap');
+        
+        body {
+            font-family: 'Commissioner', sans-serif;
+        }
+        
+        .syncopate {
+            font-family: 'Syncopate', sans-serif;
+        }
+    </style>
     <style>
         @keyframes shimmer {
             0% { background-position: -1000px 0; }
@@ -56,26 +71,55 @@
 </head>
 <body class="bg-black min-h-screen">
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass-effect">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex justify-between items-center py-4">
-                <a href="#" class="gradient-border">
-                    <div class="px-4 py-2 bg-black rounded-xl">
-                        <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4]">
-                            D&L
-                        </span>
-                    </div>
-                </a>
-                
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="index.php" class="text-gray-300 hover:text-white transition-colors duration-300">Accueil</a>
-                    <a href="#" class="text-white font-medium">Collection</a>
-                    <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Services</a>
-                    <div class="gradient-border">
-                        <button class="px-6 py-2 bg-black rounded-xl text-white hover:bg-gray-900 transition-colors duration-300">
-                            Réserver
-                        </button>
-                    </div>
+    <nav class=" w-full z-50 bg-zinc-950/90 backdrop-blur-lg">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex justify-between items-center text-white h-28">
+                <a href="../index.php" class="text-xl syncopate">Luxury</a>
+                <div class="hidden lg:flex items-center gap-16">
+                    <a href="#fleet" class="text-sm hover:text-zinc-300">FLEET</a>
+                    <a href="#experience" class="text-sm hover:text-zinc-300">EXPERIENCE</a>
+                    <a href="#contact" class="text-sm hover:text-zinc-300">CONTACT</a>
+                    <?php
+                        if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
+                            echo '<div class="flex items-center gap-6">
+                            <div class="relative group">
+                                    <a href="pages/profile.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
+                                        <img src="assets/default-avatar.png" alt="Profile" class="w-10 h-10 rounded-full border-2 border-white">
+                                    </a>
+                                    <div class="absolute right-0 w-48 py-2 mt-2 bg-zinc-900 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all">
+                                        <a href="pages/profile.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
+                                        <a href="pages/dashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
+                                        <hr class="my-2 border-zinc-700">
+                                        <form method="POST" action="classes/user.php">
+                                        <button type="submit" name="log_out" class="block px-4 w-full text-start py-2 text-sm text-red-400 hover:bg-zinc-800">Logout</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>';
+                        }elseif (isset($_SESSION["admin"]) && $_SESSION["admin"] === false){
+                            echo '<div class="flex items-center gap-6">
+                            <div class="relative group">
+                                    <a href="pages/profile.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
+                                        <img src="assets/default-avatar.png" alt="Profile" class="w-10 h-10 rounded-full border-2 border-white">
+                                    </a>
+                                    <div class="absolute right-0 w-48 py-2 mt-2 bg-zinc-900 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all">
+                                        <a href="pages/profile.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
+                                        <a href="pages/dashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
+                                        <hr class="my-2 border-zinc-700">
+                                        <form method="POST" action="classes/user.php">
+                                        <button type="submit" name="log_out" class="block px-4 w-full text-start py-2 text-sm text-red-400 hover:bg-zinc-800">Logout</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>';
+                        }else {
+                            echo '<button class="px-8 py-4 bg-white text-black text-sm hover:bg-zinc-100">
+                                <a href="login.php">Logni NOW</a>
+                              </button>';
+                        }
+                    
+                    ?>
+                    
                 </div>
             </div>
         </div>

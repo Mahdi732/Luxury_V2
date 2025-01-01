@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -25,12 +29,50 @@
             <div class="flex justify-between items-center h-28">
                 <a href="#" class="text-xl syncopate">Luxury</a>
                 <div class="hidden lg:flex items-center gap-16">
-                    <a href="#fleet" class="text-sm hover:text-zinc-300">FLEET</a>
+                    <a href="pages/menu.php" class="text-sm hover:text-zinc-300">FLEET</a>
                     <a href="#experience" class="text-sm hover:text-zinc-300">EXPERIENCE</a>
                     <a href="#contact" class="text-sm hover:text-zinc-300">CONTACT</a>
-                    <button class="px-8 py-4 bg-white text-black text-sm hover:bg-zinc-100">
-                        <a href="pages/login.php">Logni NOW</a>
-                    </button>
+                    <?php
+                        if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
+                            echo '<div class="flex items-center gap-6">
+                            <div class="relative group">
+                                    <a href="pages/profile.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
+                                        <img src="assets/default-avatar.png" alt="Profile" class="w-10 h-10 rounded-full border-2 border-white">
+                                    </a>
+                                    <div class="absolute right-0 w-48 py-2 mt-2 bg-zinc-900 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all">
+                                        <a href="pages/profile.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
+                                        <a href="pages/dashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
+                                        <hr class="my-2 border-zinc-700">
+                                        <form method="POST" action="classes/user.php">
+                                        <button type="submit" name="log_out" class="block px-4 w-full text-start py-2 text-sm text-red-400 hover:bg-zinc-800">Logout</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>';
+                        }elseif (isset($_SESSION["admin"]) && $_SESSION["admin"] === false){
+                            echo '<div class="flex items-center gap-6">
+                            <div class="relative group">
+                                    <a href="pages/profile.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
+                                        <img src="assets/default-avatar.png" alt="Profile" class="w-10 h-10 rounded-full border-2 border-white">
+                                    </a>
+                                    <div class="absolute right-0 w-48 py-2 mt-2 bg-zinc-900 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all">
+                                        <a href="pages/profile.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
+                                        <a href="pages/dashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
+                                        <hr class="my-2 border-zinc-700">
+                                        <form method="POST" action="classes/user.php">
+                                        <button type="submit" name="log_out" class="block px-4 w-full text-start py-2 text-sm text-red-400 hover:bg-zinc-800">Logout</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>';
+                        }else {
+                            echo '<button class="px-8 py-4 bg-white text-black text-sm hover:bg-zinc-100">
+                                <a href="pages/login.php">Logni NOW</a>
+                              </button>';
+                        }
+                    
+                    ?>
+                    
                 </div>
             </div>
         </div>
