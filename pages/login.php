@@ -223,14 +223,12 @@ require_once "../classes/user.php";
     </div>
 
     <script>
-        // Initialize Three.js scene
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        // Create particles
         const particlesGeometry = new THREE.BufferGeometry();
         const particlesCount = 5000;
         const posArray = new Float32Array(particlesCount * 3);
@@ -253,7 +251,6 @@ require_once "../classes/user.php";
 
         camera.position.z = 3;
 
-        // Mouse movement effect
         let mouseX = 0;
         let mouseY = 0;
 
@@ -262,7 +259,6 @@ require_once "../classes/user.php";
             mouseY = event.clientY / window.innerHeight - 0.5;
         });
 
-        // Animation loop
         function animate() {
             requestAnimationFrame(animate);
             
@@ -277,7 +273,6 @@ require_once "../classes/user.php";
 
         animate();
 
-        // Form switching logic
         document.getElementById('showSignup').addEventListener('click', (e) => {
             e.preventDefault();
             document.getElementById('loginForm').classList.add('hidden');

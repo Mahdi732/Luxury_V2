@@ -36,12 +36,12 @@ session_start();
                         if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
                             echo '<div class="flex items-center gap-6">
                             <div class="relative group">
-                                    <a href="pages/profile.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
-                                        <img src="assets/default-avatar.png" alt="Profile" class="w-10 h-10 rounded-full border-2 border-white">
+                                    <a href="pages/admindashboard.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
+                                        <img src="https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_1280.png" alt="Profile" class="w-10 h-10 rounded-full ">
                                     </a>
                                     <div class="absolute right-0 w-48 py-2 mt-2 bg-zinc-900 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all">
-                                        <a href="pages/profile.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
-                                        <a href="pages/dashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
+                                        <a href="pages/admindashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
+                                        <a href="pages/admindashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
                                         <hr class="my-2 border-zinc-700">
                                         <form method="POST" action="classes/user.php">
                                         <button type="submit" name="log_out" class="block px-4 w-full text-start py-2 text-sm text-red-400 hover:bg-zinc-800">Logout</button>
@@ -53,7 +53,7 @@ session_start();
                             echo '<div class="flex items-center gap-6">
                             <div class="relative group">
                                     <a href="pages/profile.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
-                                        <img src="assets/default-avatar.png" alt="Profile" class="w-10 h-10 rounded-full border-2 border-white">
+                                        <img src="https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_1280.png" alt="Profile" class="w-10 h-10 rounded-full ">
                                     </a>
                                     <div class="absolute right-0 w-48 py-2 mt-2 bg-zinc-900 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all">
                                         <a href="pages/profile.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>

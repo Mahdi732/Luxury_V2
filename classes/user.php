@@ -52,7 +52,7 @@ class User {
     public function logOut(){
         session_unset();
         session_destroy();
-        header("location: ..index.php");
+        header("Location: ../index.php");
     }
 }
 
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = $_POST["password_sig"] ?? null;
     $email_log = $_POST["email_log"] ?? null;
     $password_log = $_POST["password_log"] ?? null;
-    $log_out = $_POST["log_out"];
+    $log_out = $_POST["log_out"] ?? null;
 
     if (!empty($username) && !empty($email) && !empty($password)) {
         $sign_up = new User();
