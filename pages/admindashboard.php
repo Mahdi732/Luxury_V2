@@ -76,7 +76,7 @@ session_start();
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                     </svg>
-                    <span>Mes réservations</span>
+                    <span>réservations</span>
                 </a>
                 <a href="#" class="flex items-center space-x-3 p-3 rounded-xl text-gray-400 hover:text-white transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,21 +92,17 @@ session_start();
                 </a>
             </nav>
 
-            <!-- User Profile -->
             <div class="absolute bottom-0 w-full p-4 border-t border-white/10">
                 <div class="flex items-center space-x-3">
                     <img src="https://intranet.youcode.ma/storage/users/profile/1073-1728554626.jpg" alt="User" class="w-8 h-8 rounded-full">
                     <div>
-                        <p class="text-sm font-medium text-white">John Doe</p>
-                        <p class="text-xs text-gray-400">Client Premium</p>
+                        <p class="text-sm font-medium text-white">Wissam Douskary</p>
                     </div>
                 </div>
             </div>
         </aside>
 
-        <!-- Main Content -->
         <main class="flex-1 overflow-auto scrollbar-hidden">
-            <!-- Top Bar -->
             <header class="glass-light border-b border-white/10 sticky top-0 z-50">
                 <div class="flex items-center justify-between p-4">
                     <h1 class="text-xl font-bold text-white">Tableau de bord</h1>
@@ -138,14 +134,12 @@ session_start();
                 </div>
             </header>
 
-            <!-- Dashboard Content -->
             <div class="p-6 space-y-6">
-                <!-- Stats Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div class="glass-light rounded-xl p-6 border border-white/10">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-sm text-gray-400">Réservations actives</p>
+                                <p class="text-sm text-gray-400">Réservations </p>
                                 <p class="text-2xl font-bold text-white mt-1">2</p>
                             </div>
                             <div class="w-12 h-12 rounded-xl bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] flex items-center justify-center">
@@ -158,7 +152,7 @@ session_start();
                     <div class="glass-light rounded-xl p-6 border border-white/10">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-sm text-gray-400">Points fidélité</p>
+                                <p class="text-sm text-gray-400">Users</p>
                                 <p class="text-2xl font-bold text-white mt-1">1,250</p>
                             </div>
                             <div class="w-12 h-12 rounded-xl bg-gradient-to-r from-[#4ECDC4] to-[#FF6B6B] flex items-center justify-center">
@@ -171,7 +165,7 @@ session_start();
                     <div class="glass-light rounded-xl p-6 border border-white/10">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-sm text-gray-400">Kilomètres parcourus</p>
+                                <p class="text-sm text-gray-400"></p>
                                 <p class="text-2xl font-bold text-white mt-1">3,427</p>
                             </div>
                             <div class="w-12 h-12 rounded-xl bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] flex items-center justify-center">
@@ -184,7 +178,7 @@ session_start();
                     <div class="glass-light rounded-xl p-6 border border-white/10">
                         <div class="flex items-center justify-between">
                             <div>
-                              <p class="text-sm text-gray-400">Véhicules loués</p>
+                              <p class="text-sm text-gray-400">voiture vendue</p>
                               <p class="text-2xl font-bold text-white mt-1">12</p>
                           </div>
                           <div class="w-12 h-12 rounded-xl bg-gradient-to-r from-[#4ECDC4] to-[#FF6B6B] flex items-center justify-center">
@@ -198,7 +192,7 @@ session_start();
 
               <!-- Current Rentals -->
               <div class="glass-light rounded-xl p-6 border border-white/10">
-                  <h2 class="text-xl font-bold text-white mb-4">Locations en cours</h2>
+                  <h2 class="text-xl font-bold text-white mb-4">reservation</h2>
                   <div class="overflow-x-auto">
                       <table class="w-full">
                           <thead>

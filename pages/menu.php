@@ -150,6 +150,7 @@ session_start();
                 <div class="bg-black/80 rounded-xl p-6">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <div class="space-y-2">
+                            <form action="../doit.php" method="post">
                             <label class="text-gray-400 text-sm">Catégorie</label>
                             <select class="w-full bg-black/50 border border-gray-800 rounded-xl p-3 text-white focus:border-[#FF6B6B] focus:ring-[#FF6B6B] transition-all duration-300">
                                 <option value="">Toutes les catégories</option>
@@ -158,6 +159,7 @@ session_start();
                                 <option value="suv">SUV Premium</option>
                                 <option value="electric">Véhicules électriques</option>
                             </select>
+                            </form>
                         </div>
                         <div class="space-y-2">
                             <label class="text-gray-400 text-sm">Marque</label>
