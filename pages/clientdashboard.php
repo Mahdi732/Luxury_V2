@@ -158,7 +158,6 @@ require_once('../classes/admin.php');
                                 }else {
                                     echo "there's no categories for now";
                                 }
-                                
                                 ?>
                             </select>
                         </div>

@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once('../classes/admin.php');
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -150,15 +150,22 @@ session_start();
                 <div class="bg-black/80 rounded-xl p-6">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <div class="space-y-2">
-                            <form action="../doit.php" method="post">
+                            <form id="categoryForm" action="../classes/admin.php" method="POST">
                             <label class="text-gray-400 text-sm">Catégorie</label>
-                            <select class="w-full bg-black/50 border border-gray-800 rounded-xl p-3 text-white focus:border-[#FF6B6B] focus:ring-[#FF6B6B] transition-all duration-300">
+                            <select name="bo" class="w-full bg-black/50 border border-gray-800 rounded-xl p-3 text-white focus:border-[#FF6B6B] focus:ring-[#FF6B6B] transition-all duration-300" id="categorySelect">
                                 <option value="">Toutes les catégories</option>
-                                <option value="sports">Voitures de sport</option>
-                                <option value="luxury">Berlines de luxe</option>
-                                <option value="suv">SUV Premium</option>
-                                <option value="electric">Véhicules électriques</option>
-                            </select>
+                                <?php 
+                                $getcategorie = new Admin();
+                                $result = $getcategorie->getCategories();
+                                if ($result) {
+                                    foreach($result as $get){
+                                        echo '<option value="'. $get["category_id"] .'">' . $get["name"] . '</option>';
+                                    }
+                                }else {
+                                    echo "there's no categories for now";
+                                }
+                                ?>
+                                </select>
                             </form>
                         </div>
                         <div class="space-y-2">
@@ -305,7 +312,7 @@ session_start();
                                     <div class="flex items-center space-x-1">
                                         <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                        </svg>
+                                        </svg>
                                         <span class="text-white font-medium">4.9</span>
                                     </div>
                                 </div>
@@ -496,6 +503,9 @@ session_start();
     </footer>
 
     <script>
+        document.getElementById('categorySelect').addEventListener('change', function() {
+        document.getElementById('categoryForm').submit();
+        });
         window.addEventListener('DOMContentLoaded', () => {
             gsap.from('.card-hover-effect', {
                 duration: 0.8,
