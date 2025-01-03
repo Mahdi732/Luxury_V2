@@ -69,6 +69,7 @@ categorySelect.addEventListener('change', () => {
     let categorie = categorySelect.value;
     let conn = new XMLHttpRequest();
     conn.open('POST', `../classes/filter_vehiculs.php`);
+    conn.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     conn.send(`categorie_sel=${categorie}`);
     conn.onload = () => {
         if (conn.status === 200) {
@@ -81,6 +82,14 @@ categorySelect.addEventListener('change', () => {
                     <div class="card-hover-effect">
                         <div class="gradient-border">
                             <div class="bg-black rounded-xl overflow-hidden">
+                            <form action="../pages/vehiculesinfo.php" method="POST">
+                                    <input type="hidden" name="id_info" value="'. $res["vehicle_id"] .'">
+                                    <button type="submit" class="absolute top-2 left-2 z-10 p-2 bg-blue-500/20 hover:bg-blue-500/40 rounded-full text-blue-500 transition-all duration-300">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                    </button>
+                                </form>
                                 <div class="relative">
                                     <img 
                                         src="${v.image_url}" 

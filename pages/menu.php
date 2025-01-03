@@ -189,7 +189,7 @@ require_once('../classes/menu.php');
                         </div>
                         <div class="space-y-2">
                             <label class="text-gray-400 text-sm">Prix maximum</label>
-                            <select class="categorySelect w-full bg-black/50 border border-gray-800 rounded-xl p-3 text-white focus:border-[#FF6B6B] focus:ring-[#FF6B6B] transition-all duration-300">
+                            <select class=" w-full bg-black/50 border border-gray-800 rounded-xl p-3 text-white focus:border-[#FF6B6B] focus:ring-[#FF6B6B] transition-all duration-300">
                                 <option value="">Tous les prix</option>
                                 <option value="1000">Jusqu'à 1000€/jour</option>
                                 <option value="2000">Jusqu'à 2000€/jour</option>
@@ -217,7 +217,7 @@ require_once('../classes/menu.php');
             <div class="vehiculecontainer grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <?php
                 $vehicule = new menu();
-                $categorie = isset($_GET['categorie']) && !empty($_GET['categorie']) ? intval($_GET['categorie']) : null;
+                $categorie = isset($_POST['categorie']);
                 
                 if ($categorie) {
                     $vehicles = $vehicule->filter($categorie);
@@ -230,23 +230,31 @@ require_once('../classes/menu.php');
                         echo '<div class="card-hover-effect">
                             <div class="gradient-border">
                                 <div class="bg-black rounded-xl overflow-hidden">
+                                <form action="../pages/vehiculesinfo.php" method="POST">
+                                    <input type="hidden" name="id_info" value="'. $res["vehicle_id"] .'">
+                                    <button type="submit" class="absolute top-2 left-2 z-10 p-2 bg-blue-500/20 hover:bg-blue-500/40 rounded-full text-blue-500 transition-all duration-300">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                    </button>
+                                </form>
                                     <div class="relative">
                                         <img 
-                                            src="'. htmlspecialchars($res["image_url"]) .'" 
-                                            alt="'. htmlspecialchars($res["model"]) .'" 
+                                            src="'. ($res["image_url"]) .'" 
+                                            alt="'. ($res["model"]) .'" 
                                             class="w-full h-64 object-cover"
                                         >
                                         <div class="absolute top-4 right-4">
                                             <span class="px-3 py-1 bg-[#FF6B6B]/20 text-[#FF6B6B] rounded-full text-sm backdrop-blur-xl">
-                                                '. htmlspecialchars($res["Marque"]) .'
+                                                '. $res["Marque"] .'
                                             </span>
                                         </div>
                                     </div>
                                     <div class="p-6 space-y-4">
                                         <div class="flex justify-between items-start">
                                             <div>
-                                                <h3 class="text-xl font-bold text-white">'. htmlspecialchars($res["model"]) .'</h3>
-                                                <p class="text-gray-400">'. htmlspecialchars($res["Marque"]) .'</p>
+                                                <h3 class="text-xl font-bold text-white">'. $res["model"] .'</h3>
+                                                <p class="text-gray-400">'. $res["Marque"] .'</p>
                                             </div>
                                             <div class="flex items-center space-x-1">
                                                 <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
@@ -257,8 +265,8 @@ require_once('../classes/menu.php');
                                         </div>
                                         <div class="flex justify-between items-center">
                                             <div>
-                                                <span class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4]">'. htmlspecialchars($res["price"]) .'€</span>
-                                                <span class="text-gray-400">/jour</span>
+                                                <span class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4]">'. $res["price"] .'€</span>
+                                                <span class="text-gray-400">/month</span>
                                             </div>
                                             <button class="px-6 py-2 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] rounded-full text-white font-medium hover:opacity-90 transition-opacity duration-300">
                                                 Réserver

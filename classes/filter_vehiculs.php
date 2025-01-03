@@ -3,7 +3,7 @@ require_once("menu.php");
 $vehicule = new menu();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $categorie = $_POST['categorie_sel'] ?? 'all';
+    $categorie = $_POST['categorie_sel'];
 
     if ($categorie === 'all') {
         $vehicles = $vehicule->aficheVehicles();

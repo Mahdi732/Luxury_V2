@@ -57,6 +57,7 @@ require_once "../classes/user.php";
             </div>
         </div>
     </nav>
+    
     <div class="fixed inset-0" id="canvas-container"></div>
     <div class="fixed inset-0 bg-gradient-to-br from-black/80 via-transparent to-black/80"></div>
 

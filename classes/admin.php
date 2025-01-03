@@ -10,7 +10,7 @@ class Admin {
     }
 
     public function getCategories(){
-        $sql = "SELECT category_id, name FROM `categories`";
+        $sql = "SELECT * FROM `categories`";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
