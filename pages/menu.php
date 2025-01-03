@@ -1,5 +1,6 @@
 <?php
 require_once('../classes/admin.php');
+require_once('../classes/menu.php');
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -71,7 +72,7 @@ require_once('../classes/admin.php');
 </head>
 <body class="bg-black min-h-screen">
     <!-- Navigation -->
-    <nav class=" w-full z-50 bg-zinc-950/90 backdrop-blur-lg">
+    <nav class="h-[10rem] w-full z-50 bg-zinc-950/90 backdrop-blur-lg">
         <div class="max-w-screen-2xl mx-auto px-8">
             <div class="flex justify-between items-center text-white h-28">
                 <a href="../index.php" class="text-xl syncopate">Luxury</a>
@@ -83,12 +84,12 @@ require_once('../classes/admin.php');
                         if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
                             echo '<div class="flex items-center gap-6">
                             <div class="relative group">
-                                    <a href="admindashboard.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
+                                    <a href="clientdashboard.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
                                         <img src="https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_1280.png" alt="Profile" class="w-10 h-10 rounded-full ">vsxvsfv
                                     </a>
                                     <div class="absolute right-0 w-48 py-2 mt-2 bg-zinc-900 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all">
-                                        <a href="admindashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
-                                        <a href="admindashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
+                                        <a href="clientdashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
+                                        <a href="clientdashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
                                         <hr class="my-2 border-zinc-700">
                                         <form method="POST" action="classes/user.php">
                                         <button type="submit" name="log_out" class="block px-4 w-full text-start py-2 text-sm text-red-400 hover:bg-zinc-800">Logout</button>
@@ -150,10 +151,10 @@ require_once('../classes/admin.php');
                 <div class="bg-black/80 rounded-xl p-6">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <div class="space-y-2">
-                            <form id="categoryForm" action="../classes/admin.php" method="POST">
+                            <form id="categoryForm" action="../classes/menu.php" method="POST">
                             <label class="text-gray-400 text-sm">Catégorie</label>
-                            <select name="bo" class="w-full bg-black/50 border border-gray-800 rounded-xl p-3 text-white focus:border-[#FF6B6B] focus:ring-[#FF6B6B] transition-all duration-300" id="categorySelect">
-                                <option value="">Toutes les catégories</option>
+                            <select name="bo" id="categorySelect" class=" w-full bg-black/50 border border-gray-800 rounded-xl p-3 text-white focus:border-[#FF6B6B] focus:ring-[#FF6B6B] transition-all duration-300">
+                                <option value="all">Toutes les catégories</option>
                                 <?php 
                                 $getcategorie = new Admin();
                                 $result = $getcategorie->getCategories();
@@ -169,18 +170,26 @@ require_once('../classes/admin.php');
                             </form>
                         </div>
                         <div class="space-y-2">
+                        <form  action="../classes/admin.php" method="POST">
                             <label class="text-gray-400 text-sm">Marque</label>
-                            <select class="w-full bg-black/50 border border-gray-800 rounded-xl p-3 text-white focus:border-[#4ECDC4] focus:ring-[#4ECDC4] transition-all duration-300">
+                            <select class=" w-full bg-black/50 border border-gray-800 rounded-xl p-3 text-white focus:border-[#4ECDC4] focus:ring-[#4ECDC4] transition-all duration-300">
                                 <option value="">Toutes les marques</option>
-                                <option value="ferrari">Ferrari</option>
-                                <option value="rolls">Rolls-Royce</option>
-                                <option value="tesla">Tesla</option>
-                                <option value="porsche">Porsche</option>
+                                <?php 
+                                $result = $getcategorie->getMark();
+                                if ($result) {
+                                    foreach($result as $get){
+                                        echo '<option value="'. $get["Marque"] .'">' . $get["Marque"] . '</option>';
+                                    }
+                                }else {
+                                    echo "there's no Marque for now";
+                                }
+                                ?>
                             </select>
+                        </form>
                         </div>
                         <div class="space-y-2">
                             <label class="text-gray-400 text-sm">Prix maximum</label>
-                            <select class="w-full bg-black/50 border border-gray-800 rounded-xl p-3 text-white focus:border-[#FF6B6B] focus:ring-[#FF6B6B] transition-all duration-300">
+                            <select class="categorySelect w-full bg-black/50 border border-gray-800 rounded-xl p-3 text-white focus:border-[#FF6B6B] focus:ring-[#FF6B6B] transition-all duration-300">
                                 <option value="">Tous les prix</option>
                                 <option value="1000">Jusqu'à 1000€/jour</option>
                                 <option value="2000">Jusqu'à 2000€/jour</option>
@@ -205,173 +214,65 @@ require_once('../classes/admin.php');
 
     <div class="relative">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="card-hover-effect">
-                    <div class="gradient-border">
-                        <div class="bg-black rounded-xl overflow-hidden">
-                            <div class="relative">
-                                <img 
-                                    src="/api/placeholder/600/400" 
-                                    alt="Ferrari SF90 Stradale" 
-                                    class="w-full h-64 object-cover"
-                                >
-                                <div class="absolute top-4 right-4">
-                                    <span class="px-3 py-1 bg-[#FF6B6B]/20 text-[#FF6B6B] rounded-full text-sm backdrop-blur-xl">
-                                        Supercar
-                                    </span>
+            <div class="vehiculecontainer grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <?php
+                $vehicule = new menu();
+                $categorie = isset($_GET['categorie']) && !empty($_GET['categorie']) ? intval($_GET['categorie']) : null;
+                
+                if ($categorie) {
+                    $vehicles = $vehicule->filter($categorie);
+                } else {
+                    $vehicles = $vehicule->aficheVehicles();
+                }
+                
+                if (!empty($vehicles)) {
+                    foreach ($vehicles as $res) {
+                        echo '<div class="card-hover-effect">
+                            <div class="gradient-border">
+                                <div class="bg-black rounded-xl overflow-hidden">
+                                    <div class="relative">
+                                        <img 
+                                            src="'. htmlspecialchars($res["image_url"]) .'" 
+                                            alt="'. htmlspecialchars($res["model"]) .'" 
+                                            class="w-full h-64 object-cover"
+                                        >
+                                        <div class="absolute top-4 right-4">
+                                            <span class="px-3 py-1 bg-[#FF6B6B]/20 text-[#FF6B6B] rounded-full text-sm backdrop-blur-xl">
+                                                '. htmlspecialchars($res["Marque"]) .'
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="p-6 space-y-4">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h3 class="text-xl font-bold text-white">'. htmlspecialchars($res["model"]) .'</h3>
+                                                <p class="text-gray-400">'. htmlspecialchars($res["Marque"]) .'</p>
+                                            </div>
+                                            <div class="flex items-center space-x-1">
+                                                <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                                </svg>
+                                                <span class="text-white font-medium">4.9</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <div>
+                                                <span class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4]">'. htmlspecialchars($res["price"]) .'€</span>
+                                                <span class="text-gray-400">/jour</span>
+                                            </div>
+                                            <button class="px-6 py-2 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] rounded-full text-white font-medium hover:opacity-90 transition-opacity duration-300">
+                                                Réserver
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="p-6 space-y-4">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-xl font-bold text-white">Ferrari SF90 Stradale</h3>
-                                        <p class="text-gray-400">1000 CV - Hybride</p>
-                                    </div>
-                                    <div class="flex items-center space-x-1">
-                                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                        </svg>
-                                        <span class="text-white font-medium">4.9</span>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <span class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4]">2500€</span>
-                                        <span class="text-gray-400">/jour</span>
-                                    </div>
-                                    <button class="px-6 py-2 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] rounded-full text-white font-medium hover:opacity-90 transition-opacity duration-300">
-                                        Réserver
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-hover-effect">
-                    <div class="gradient-border">
-                        <div class="bg-black rounded-xl overflow-hidden">
-                            <div class="relative">
-                                <img 
-                                    src="/api/placeholder/600/400" 
-                                    alt="Lamborghini Huracán" 
-                                    class="w-full h-64 object-cover"
-                                >
-                                <div class="absolute top-4 right-4">
-                                    <span class="px-3 py-1 bg-[#4ECDC4]/20 text-[#4ECDC4] rounded-full text-sm backdrop-blur-xl">
-                                        Sport
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="p-6 space-y-4">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-xl font-bold text-white">Lamborghini Huracán</h3>
-                                        <p class="text-gray-400">640 CV - V10</p>
-                                    </div>
-                                    <div class="flex items-center space-x-1">
-                                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                        </svg>
-                                        <span class="text-white font-medium">4.8</span>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <span class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4]">2200€</span>
-                                        <span class="text-gray-400">/jour</span>
-                                    </div>
-                                    <button class="px-6 py-2 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] rounded-full text-white font-medium hover:opacity-90 transition-opacity duration-300">Réserver
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-hover-effect">
-                    <div class="gradient-border">
-                        <div class="bg-black rounded-xl overflow-hidden">
-                            <div class="relative">
-                                <img 
-                                    src="/api/placeholder/600/400" 
-                                    alt="Porsche 911 GT3" 
-                                    class="w-full h-64 object-cover"
-                                >
-                                <div class="absolute top-4 right-4">
-                                    <span class="px-3 py-1 bg-[#FF6B6B]/20 text-[#FF6B6B] rounded-full text-sm backdrop-blur-xl">
-                                        Sport
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="p-6 space-y-4">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-xl font-bold text-white">Porsche 911 GT3</h3>
-                                        <p class="text-gray-400">510 CV - Flat-6</p>
-                                    </div>
-                                    <div class="flex items-center space-x-1">
-                                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                        </svg>
-                                        <span class="text-white font-medium">4.9</span>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <span class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4]">1800€</span>
-                                        <span class="text-gray-400">/jour</span>
-                                    </div>
-                                    <button class="px-6 py-2 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] rounded-full text-white font-medium hover:opacity-90 transition-opacity duration-300">
-                                        Réserver
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-hover-effect">
-                    <div class="gradient-border">
-                        <div class="bg-black rounded-xl overflow-hidden">
-                            <div class="relative">
-                                <img 
-                                    src="/api/placeholder/600/400" 
-                                    alt="Tesla Model S Plaid" 
-                                    class="w-full h-64 object-cover"
-                                >
-                                <div class="absolute top-4 right-4">
-                                    <span class="px-3 py-1 bg-[#4ECDC4]/20 text-[#4ECDC4] rounded-full text-sm backdrop-blur-xl">
-                                        Électrique
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="p-6 space-y-4">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-xl font-bold text-white">Tesla Model S Plaid</h3>
-                                        <p class="text-gray-400">1020 CV - 0-100 en 2.1s</p>
-                                    </div>
-                                    <div class="flex items-center space-x-1">
-                                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                        </svg>
-                                        <span class="text-white font-medium">4.7</span>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <span class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4]">1200€</span>
-                                        <span class="text-gray-400">/jour</span>
-                                    </div>
-                                    <button class="px-6 py-2 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] rounded-full text-white font-medium hover:opacity-90 transition-opacity duration-300">
-                                        Réserver
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                        </div>';
+                    }
+                } else {
+                    echo '<p class="text-white">Aucun véhicule trouvé pour cette catégorie.</p>';
+                }
+                ?>
             </div>
             <div class="mt-16 flex justify-center">
                 <div class="inline-flex items-center gap-2">
@@ -501,73 +402,11 @@ require_once('../classes/admin.php');
             </div>
         </div>
     </footer>
-
+    <script src="../script/script.js"></script>
     <script>
-        document.getElementById('categorySelect').addEventListener('change', function() {
-        document.getElementById('categoryForm').submit();
-        });
-        window.addEventListener('DOMContentLoaded', () => {
-            gsap.from('.card-hover-effect', {
-                duration: 0.8,
-                y: 50,
-                opacity: 0,
-                stagger: 0.2,
-                ease: 'power3.out'
-            });
-
-            document.addEventListener('mousemove', (e) => {
-                const moveX = (e.pageX - window.innerWidth/2) * 0.01;
-                const moveY = (e.pageY - window.innerHeight/2) * 0.01;
-                
-                gsap.to('.parallax-bg', {
-                    x: moveX,
-                    y: moveY,
-                    duration: 1,
-                    ease: 'power2.out'
-                });
-            });
-
-            const stats = document.querySelectorAll('.text-4xl');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        gsap.to(entry.target, {
-                            duration: 2,
-                            opacity: 1,
-                            y: 0,
-                            ease: 'power3.out'
-                        });
-                    }
-                });
-            });
-
-            stats.forEach(stat => {
-                gsap.set(stat, { opacity: 0, y: 20 });
-                observer.observe(stat);
-            });
-        });
-
-        const filters = document.querySelectorAll('select');
-        filters.forEach(filter => {
-            filter.addEventListener('change', () => {
-                gsap.to('.card-hover-effect', {
-                    duration: 0.3,
-                    opacity: 0,
-                    y: 20,
-                    stagger: 0.1,
-                    ease: 'power2.in',
-                    onComplete: () => {
-                        gsap.to('.card-hover-effect', {
-                            duration: 0.5,
-                            opacity: 1,
-                            y: 0,
-                            stagger: 0.1,
-                            ease: 'power2.out'
-                        });
-                    }
-                });
-            });
-        });
+        // document.getElementById('categorySelect').addEventListener('change', function() {
+        // document.getElementById('categoryForm').submit();
+        // });
     </script>
 </body>
 </html>

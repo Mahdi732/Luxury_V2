@@ -41,7 +41,7 @@ require_once "../classes/user.php";
     </style>
 </head>
 <body class="bg-[#0A0A0A] text-white min-h-screen">
-<nav class=" w-full z-50 bg-zinc-950/90 backdrop-blur-lg">
+<nav class=" w-full z-100 bg-zinc-950/90 backdrop-blur-lg">
         <div class="max-w-screen-2xl mx-auto px-8">
             <div class="flex justify-between items-center h-28">
                 <a href="#" class="text-xl syncopate">Luxury</a>

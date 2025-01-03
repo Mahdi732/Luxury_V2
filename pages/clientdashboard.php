@@ -35,7 +35,7 @@ require_once('../classes/admin.php');
             <div class="p-6 border-b border-white/10">
                 <div class="flex items-center space-x-3">
                     <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4]">
-                        LuxuryAdmin
+                       <a href="../index.php">LuxuryAdmin</a> 
                     </span>
                 </div>
             </div>
@@ -121,53 +121,67 @@ require_once('../classes/admin.php');
                 </div>
             </header>
 
-            <div id="createModal" class="fixed inset-0 bg-black bg-opacity-50 flex z-50 items-center justify-center hidden">
-                <div class="bg-white rounded-lg p-6 w-96">
-                    <h2 class="text-lg font-bold mb-4">Create a Vehicle</h2>
-                    <form method="POST" action="../classes/admin.php"  id="createVehicleForm">
+            <div id="createModal" class="fixed inset-0 bg-black bg-opacity-50 flex z-50 items-center justify-center hidden overflow-y-auto py-6">
+    <div class="bg-white rounded-lg p-6 w-full max-w-xl mx-4 my-auto">
+        <h2 class="text-xl font-bold mb-6">Create Vehicles</h2>
+        <form method="POST" action="../classes/admin.php" id="createVehicleForm" class="max-h-[80vh] overflow-y-auto pr-2">
+            <div id="vehicleContainer">
+                <div class="vehicleEntry border p-6 mb-6 rounded-lg bg-gray-50 shadow-sm">
+                    <div class="mb-4">
+                        <label for="model" class="block text-sm font-medium text-gray-700 mb-1">Model</label>
+                        <input type="text" name="vehicles[0][model]" class="mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                    </div>
+                    <div class="mb-4">
+                        <label for="" class="block text-sm font-medium text-gray-700 mb-1">Image</label>
+                        <input type="text" name="vehicles[0][image]" class="mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
                         <div class="mb-4">
-                            <label for="model" class="block text-sm font-medium text-gray-700">Model</label>
-                            <input type="text" id="model" name="model" class="mt-1 p-2 border border-gray-300 rounded w-full" required />
+                            <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Price</label>
+                            <input type="number" name="vehicles[0][price]" class="mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
                         </div>
                         <div class="mb-4">
-                            <label for="" class="block text-sm font-medium text-gray-700">image</label>
-                            <input type="text" id="" name="image" class="mt-1 p-2 border border-gray-300 rounded w-full" required />
+                            <label for="" class="block text-sm font-medium text-gray-700 mb-1">Availability</label>
+                            <input type="number" name="vehicles[0][availability]" class="mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
                         </div>
-                        <div class="mb-4">
-                            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
-                            <input type="number" id="price" name="price" class="mt-1 p-2 border border-gray-300 rounded w-full" required />
-                        </div>
-                        <div class="mb-4">
-                            <label for="description" class="text-sm font-medium text-gray-700">Description</label>
-                            <textarea id="description" name="description" class="mt-1 p-2 border border-gray-300 h-[6rem] rounded w-full resize-none" required></textarea>
-                        </div>
-                        <div class="mb-4">
-                            <label for="" class="block text-sm font-medium text-gray-700">Price</label>
-                            <input type="number" id="availability" name="availability" class="mt-1 p-2 border border-gray-300 rounded w-full" required />
-                        </div>
-                        <div class="mb-4">
-                            <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-                            <select id="category" name="category" class="mt-1 p-2 border border-gray-300 rounded w-full">
-                                <?php 
-                                $getcategorie = new Admin();
-                                $result = $getcategorie->getCategories();
-                                if ($result) {
-                                    foreach($result as $get){
-                                        echo '<option value="'. $get["category_id"] .'">' . $get["name"] . '</option>';
-                                    }
-                                }else {
-                                    echo "there's no categories for now";
+                    </div>
+                    <div class="mb-4">
+                        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <textarea name="vehicles[0][description]" class="mt-1 p-2.5 border border-gray-300 rounded-md w-full h-24 resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                        <select name="vehicles[0][category]" class="mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <?php 
+                            $getcategorie = new Admin();
+                            $result = $getcategorie->getCategories();
+                            if ($result) {
+                                foreach($result as $get){
+                                    echo '<option value="'. $get["category_id"] .'">' . $get["name"] . '</option>';
                                 }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="flex justify-end space-x-2">
-                            <button type="button" id="closeModalBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
-                            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Save</button>
-                        </div>
-                    </form>
+                            }else {
+                                echo "there's no categories for now";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="model" class="block text-sm font-medium text-gray-700 mb-1">Mark</label>
+                        <input type="text" name="vehicles[0][marque]" class="mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                    </div>
                 </div>
             </div>
+            <button type="button" id="addVehicleBtn" class="w-full px-4 py-2.5 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors mb-6 font-medium">
+                Add Another Vehicle
+            </button>
+            <div class="flex justify-end space-x-3">
+                <button type="button" id="closeModalBtn" class="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors font-medium">Cancel</button>
+                <button type="submit" class="px-6 py-2.5 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors font-medium">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 
             <!-- Dashboard Content -->
             <div class="p-6 space-y-6">
@@ -297,6 +311,24 @@ require_once('../classes/admin.php');
     closeModalBtn.addEventListener('click', () => {
         createModal.classList.add('hidden');
     });
+    document.getElementById('addVehicleBtn').addEventListener('click', () => {
+    const vehicleContainer = document.getElementById('vehicleContainer');
+    const vehicleEntries = document.querySelectorAll('.vehicleEntry');
+    const newIndex = vehicleEntries.length;
+
+    const newEntry = vehicleEntries[0].cloneNode(true);
+
+    // Update the names of the cloned inputs
+    Array.from(newEntry.querySelectorAll('input, select, textarea')).forEach(input => {
+        const name = input.getAttribute('name');
+        if (name) {
+            input.setAttribute('name', name.replace(/\[\d+\]/, `[${newIndex}]`));
+            input.value = ''; // Clear the input value
+        }
+    });
+
+    vehicleContainer.appendChild(newEntry);
+});
 
 </script>
 </body>

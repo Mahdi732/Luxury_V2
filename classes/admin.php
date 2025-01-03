@@ -16,8 +16,15 @@ class Admin {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function Createorder($name, $img, $price, $desc, $ava, $cate){
-        $sql = "INSERT INTO vehicles (category_id, model, price, description, availability, image_url) VALUES (:cate, :name, :price, :desc, :ava, :img)";
+    public function getMark(){
+        $sql = "SELECT Marque FROM `vehicles`";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function Createorder($name, $img, $price, $desc, $ava, $cate, $mark){
+        $sql = "INSERT INTO vehicles (category_id, model, price, description, availability, image_url, Marque) VALUES (:cate, :name, :price, :desc, :ava, :img, :mark)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':cate', $cate);
         $stmt->bindParam(':name', $name);
@@ -25,19 +32,27 @@ class Admin {
         $stmt->bindParam(':desc', $desc);
         $stmt->bindParam(':ava', $ava);
         $stmt->bindParam(':img', $img);
+        $stmt->bindParam(':mark', $mark);
         $stmt->execute();
         header("Location: ../pages/clientdashboard.php");
     }
+
+    
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $model = $_POST['model'];
-    $image = $_POST['image'];
-    $price = $_POST['price'];
-    $description = $_POST['description'];
-    $availability = $_POST['availability'];
-    $category = $_POST['category'];
-    $create = new Admin();
-    $create->Createorder($model, $image, $price, $description, $availability, $category);
+
+if (isset($_POST['vehicles'])) {
+    foreach ($_POST['vehicles'] as $vehicle) {
+        $model = $vehicle['model'];
+        $image = $vehicle['image'];
+        $price = $vehicle['price'];
+        $availability = $vehicle['availability'];
+        $description = $vehicle['description'];
+        $category = $vehicle['category'];
+        $marque = $vehicle['marque'];
+        $insert = new Admin();
+        $insert->Createorder($model, $image, $price, $description, $availability, $category, $marque);
+    }
 }
+
 ?>
