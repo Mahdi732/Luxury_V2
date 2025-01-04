@@ -278,11 +278,15 @@ require_once('../classes/menu.php');
                     </button>
                     
                     <div class="flex gap-2">
-                        <button class="w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white">1</button>
-                        <button class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-800 text-gray-400 hover:border-[#FF6B6B] hover:text-white transition-colors duration-300">2</button>
-                        <button class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-800 text-gray-400 hover:border-[#FF6B6B] hover:text-white transition-colors duration-300">3</button>
-                        <span class="w-10 h-10 flex items-center justify-center text-gray-400">...</span>
-                        <button class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-800 text-gray-400 hover:border-[#FF6B6B] hover:text-white transition-colors duration-300">12</button>
+                    <?php
+                    $getNumberOfPages = new Menu();
+                    $getResultOfThePages = $getNumberOfPages->pageNumber();
+
+                    for ($i = 0; $i < $getResultOfThePages; $i++) { 
+                        echo '<button class="pagination-button w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white" value="'. $i .'">'. $i + 1 .'</button>';
+                    }
+                    ?>
+
                     </div>
 
                     <button class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-800 text-gray-400 hover:border-[#FF6B6B] hover:text-white transition-colors duration-300">

@@ -8,7 +8,7 @@ class Menu{
     }
 
 public function aficheVehicles() {
-    $stmt = $this->conn->prepare("SELECT * FROM vehicles");
+    $stmt = $this->conn->prepare("SELECT * FROM vehicles LIMIT 9");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -45,7 +45,26 @@ public function chercheByName($chercheValue){
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+public function pagination($numbero) {
+    $numbero = max(0, (int)$numbero);
+    $aficheNumber = $numbero * 9;
+    $stmt = $this->conn->prepare("SELECT * FROM vehicles LIMIT 9 OFFSET $aficheNumber");
+    $stmt->execute();
+    
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 
+public function pageNumber(){
+    $stmt = $this->conn->prepare("SELECT COUNT(*) FROM vehicles");
+    $stmt->execute();
+    $total_vehicles = $stmt->fetchColumn();
+    $numberForAfiche = 9;
+    $numberOfThePage = $total_vehicles / $numberForAfiche;
+    return $numberOfThePage;
+}
+
+
+}
 ?>

@@ -37,7 +37,17 @@ class Admin {
         header("Location: ../pages/clientdashboard.php");
     }
 
-    
+    public function deleteCar($deleteId) {
+    if (isset($deleteId)) {
+        $stmt = $this->conn->prepare("DELETE FROM vehicles WHERE vehicle_id = :deleteId");
+        $stmt->bindParam(':deleteId', $deleteId);
+        $stmt->execute();
+        header("Location: ../pages/menu.php");
+        exit;
+    } else {
+        echo "Error: No vehicle ID provided.";
+    }
+}
 }
 
 
@@ -54,5 +64,11 @@ if (isset($_POST['vehicles'])) {
         $insert->Createorder($model, $image, $price, $description, $availability, $category, $marque);
     }
 }
-
+if (isset($_POST["delete_car"])) {
+    $deleteCarExi = $_POST["delete_car"];
+    $deleteted = new Admin();
+    $deleteted->deleteCar($deleteCarExi);
+} else {
+    echo "Error: No vehicle ID provided.";
+}
 ?>
