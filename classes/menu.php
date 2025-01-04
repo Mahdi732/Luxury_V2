@@ -15,7 +15,7 @@ public function aficheVehicles() {
 
 public function filter($categorie) {
     $stmt = $this->conn->prepare("SELECT * FROM vehicles WHERE category_id = :categorie");
-    $stmt->bindParam(':categorie', $categorie, PDO::PARAM_INT);
+    $stmt->bindParam(':categorie', $categorie);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -36,6 +36,14 @@ $stmt->bindParam(':Info_Id', $id_info);
 if ($stmt->execute()) {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+}
+
+public function chercheByName($chercheValue){
+    $stmt = $this->conn->prepare("SELECT * FROM vehicles WHERE model LIKE :cherche");
+    $stmt->bindParam(':cherche', $chercheTrucks);
+    $chercheTrucks = "%" . $chercheValue . "%";
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 }
 

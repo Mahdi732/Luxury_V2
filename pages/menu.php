@@ -151,7 +151,7 @@ require_once('../classes/menu.php');
                 <div class="bg-black/80 rounded-xl p-6">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <div class="space-y-2">
-                            <form id="categoryForm" action="../classes/menu.php" method="POST">
+                            
                             <label class="text-gray-400 text-sm">Catégorie</label>
                             <select name="bo" id="categorySelect" class=" w-full bg-black/50 border border-gray-800 rounded-xl p-3 text-white focus:border-[#FF6B6B] focus:ring-[#FF6B6B] transition-all duration-300">
                                 <option value="all">Toutes les catégories</option>
@@ -167,7 +167,7 @@ require_once('../classes/menu.php');
                                 }
                                 ?>
                                 </select>
-                            </form>
+                            
                         </div>
                         <div class="space-y-2">
                         <form  action="../classes/admin.php" method="POST">
@@ -188,14 +188,8 @@ require_once('../classes/menu.php');
                         </form>
                         </div>
                         <div class="space-y-2">
-                            <label class="text-gray-400 text-sm">Prix maximum</label>
-                            <select class=" w-full bg-black/50 border border-gray-800 rounded-xl p-3 text-white focus:border-[#FF6B6B] focus:ring-[#FF6B6B] transition-all duration-300">
-                                <option value="">Tous les prix</option>
-                                <option value="1000">Jusqu'à 1000€/jour</option>
-                                <option value="2000">Jusqu'à 2000€/jour</option>
-                                <option value="3000">Jusqu'à 3000€/jour</option>
-                                <option value="max">3000€+ /jour</option>
-                            </select>
+                            <label class="text-gray-400 text-sm">sherche</label>
+                            <input id="sherche_dy" type="search" class=" w-full bg-black/50 border border-gray-800 rounded-xl p-3 text-white focus:border-[#FF6B6B] focus:ring-[#FF6B6B] transition-all duration-300">
                         </div>
                         <div class="space-y-2">
                             <label class="text-gray-400 text-sm">Trier par</label>
@@ -217,14 +211,7 @@ require_once('../classes/menu.php');
             <div class="vehiculecontainer grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <?php
                 $vehicule = new menu();
-                $categorie = isset($_POST['categorie']);
-                
-                if ($categorie) {
-                    $vehicles = $vehicule->filter($categorie);
-                } else {
                     $vehicles = $vehicule->aficheVehicles();
-                }
-                
                 if (!empty($vehicles)) {
                     foreach ($vehicles as $res) {
                         echo '<div class="card-hover-effect">
@@ -412,9 +399,9 @@ require_once('../classes/menu.php');
     </footer>
     <script src="../script/script.js"></script>
     <script>
-        // document.getElementById('categorySelect').addEventListener('change', function() {
-        // document.getElementById('categoryForm').submit();
-        // });
+        document.getElementById('categorySelect').addEventListener('change', function() {
+        document.getElementById('categoryForm').submit();
+        });
     </script>
 </body>
 </html>

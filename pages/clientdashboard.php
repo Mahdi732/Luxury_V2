@@ -321,12 +321,11 @@ require_once('../classes/admin.php');
 
     const newEntry = vehicleEntries[0].cloneNode(true);
 
-    // Update the names of the cloned inputs
     Array.from(newEntry.querySelectorAll('input, select, textarea')).forEach(input => {
         const name = input.getAttribute('name');
         if (name) {
             input.setAttribute('name', name.replace(/\[\d+\]/, `[${newIndex}]`));
-            input.value = ''; // Clear the input value
+            input.value = '';
         }
     });
 
