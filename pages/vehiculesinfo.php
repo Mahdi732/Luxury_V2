@@ -1,6 +1,7 @@
 <?php
 require_once('../classes/admin.php');
 require_once("../classes/menu.php");
+require_once("../connection/connect.php");
 if(isset($_POST['id_info'])){
     $car_id = $_POST['id_info'];
     $menu = new Menu();
@@ -133,14 +134,112 @@ if(isset($_POST['id_info'])){
                         </button>
                         
                         <?php }else { ?>
-                            <button class="flex-1 px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl text-white font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-[1.02]">
+                            <button onclick="openReservationModal()" class="flex-1 px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl text-white font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-[1.02]">
                             Réserver maintenant
                         </button>
                         <button onclick="window.history.back()" class="px-6 py-4 glass-effect rounded-xl font-semibold hover:bg-white/5 transition-all duration-300">
                             Retour
                         </button>
                         <?php } ?>
+                        <div id="reservationModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-xl max-w-md w-full">
+            <form method="POST" action="../classes/client.php" class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-900">Réserver ce véhicule</h2>
+                    <button type="button" onclick="closeReservationModal()" class="text-gray-400 hover:text-gray-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                    <p class="text-sm text-gray-500">Véhicule sélectionné:</p>
+                    <p class="font-medium text-gray-900"><?php echo $result['model']; ?></p>
+                    <p class="text-sm text-gray-500 mt-2">Prix par jour:</p>
+                    <p class="font-medium text-gray-900"><?php echo $result['price']; ?> €</p>
+                </div>
+                <div>
+                    <p class="block text-sm font-medium text-gray-700 mb-1">vehicle Image</p>
+                    <div class="w-full h-48 bg-gray-200 rounded-lg overflow-hidden mb-4">
+                        <img 
+                            src="<?php echo $result["image_url"] ?>" 
+                            alt="Vehicle preview" 
+                            class="w-full h-full object-cover"
+                        />
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Date de début
+                        </label>
+                        <input 
+                            type="date" 
+                            name="start_date" 
+                            class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Date de fin
+                        </label>
+                        <input 
+                            type="date" 
+                            name="end_date" 
+                            class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Lieu de prise en charge
+                        </label>
                         
+                        <input 
+                            type="text" 
+                            name="pickup_location" 
+                            class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            location to retuen
+                        </label>
+                        
+                        <input 
+                            type="text" 
+                            name="dropoff_location" 
+                            class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            required
+                        />
+                    </div>
+                    <input type="hidden" class="text-black" name="idResrvationClient" value="<?php echo $_SESSION["user_id"] ?>">
+                    <input type="hidden" class="text-black" name="idResrvationVehicule" value="<?php echo $result["vehicle_id"] ?>">
+                </div>
+                <div class="flex justify-end space-x-3 mt-6 pt-6 border-t">
+                    <button 
+                        type="button"
+                        onclick="closeReservationModal()"
+                        class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                        Annuler
+                    </button>
+                    <button 
+                        type="submit"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                    >
+                        Confirmer la réservation
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
                         <div id="edit_model" class="fixed inset-0 bg-black bg-opacity-50 flex z-50 items-center justify-center hidden overflow-y-auto py-6">
     <div class="bg-white rounded-lg p-6 w-full max-w-xl mx-4 my-auto">
         <h2 class="text-xl font-bold mb-6 text-black">Edits Vehicles</h2>
@@ -217,6 +316,13 @@ if(isset($_POST['id_info'])){
     </div>
 
     <script>
+        function openReservationModal() {
+            document.getElementById('reservationModal').classList.remove('hidden');
+        }
+
+        function closeReservationModal() {
+            document.getElementById('reservationModal').classList.add('hidden');
+        }
         const openModalBtn = document.getElementById('openModalBtnA');
     const createModal = document.getElementById('edit_model');
     const closeModalBtn = document.getElementById('closeModalBtn');

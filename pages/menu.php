@@ -401,6 +401,8 @@ require_once('../classes/menu.php');
             </div>
         </div>
     </footer>
+    
+
     <script src="../script/script.js"></script>
     <script>
         document.getElementById('categorySelect').addEventListener('change', function() {
