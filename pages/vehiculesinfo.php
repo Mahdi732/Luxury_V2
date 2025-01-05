@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once('../classes/admin.php');
 require_once("../classes/menu.php");
 if(isset($_POST['id_info'])){
     $car_id = $_POST['id_info'];
@@ -124,7 +124,7 @@ if(isset($_POST['id_info'])){
                             Delete
                         </button>
                         </form>
-                        <button id="show_form" class="px-6 py-4 bg-green-600 glass-effect rounded-xl font-semibold hover:bg-white/5 transition-all duration-300">
+                        <button id="openModalBtnA" class=" px-6 py-4 bg-green-600 glass-effect rounded-xl font-semibold hover:bg-white/5 transition-all duration-300">
                             Edits
                         </button>
                         
@@ -141,37 +141,52 @@ if(isset($_POST['id_info'])){
                         </button>
                         <?php } ?>
                         
-                        <div id="createModal" class="fixed inset-0 bg-black bg-opacity-50 flex z-50 items-center justify-center hidden overflow-y-auto py-6">
+                        <div id="edit_model" class="fixed inset-0 bg-black bg-opacity-50 flex z-50 items-center justify-center hidden overflow-y-auto py-6">
     <div class="bg-white rounded-lg p-6 w-full max-w-xl mx-4 my-auto">
-        <h2 class="text-xl font-bold mb-6">Create Vehicles</h2>
+        <h2 class="text-xl font-bold mb-6 text-black">Edits Vehicles</h2>
         <form method="POST" action="../classes/admin.php" id="createVehicleForm" class="max-h-[80vh] overflow-y-auto pr-2">
             <div id="vehicleContainer">
                 <div class="vehicleEntry border p-6 mb-6 rounded-lg bg-gray-50 shadow-sm">
                     <div class="mb-4">
                         <label for="model" class="block text-sm font-medium text-gray-700 mb-1">Model</label>
-                        <input type="text" name="vehiclesmodel" class="mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                        <input type="text" name="editedvehiclesmodel" value="<?php echo $result["model"] ?>" class="mt-1 text-black p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                    </div>
+                    <div>
+                        <p class="block text-sm font-medium text-gray-700 mb-1">Current Image</p>
+                            <div class="w-full h-48 bg-gray-200 rounded-lg overflow-hidden mb-4">
+                                <img 
+                                    src="<?php echo $result["image_url"] ?>" 
+                                    alt="Vehicle preview" 
+                                    class="w-full h-full object-cover"
+                                />
+                            </div>
                     </div>
                     <div class="mb-4">
                         <label for="" class="block text-sm font-medium text-gray-700 mb-1">Image</label>
-                        <input type="text" name="vehiclesimage" class="mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                        <input type="text" name="editedvehiclesimage" value="<?php echo $result["image_url"] ?>" class="text-black mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="mb-4">
                             <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Price</label>
-                            <input type="number" name="vehiclesprice" class="mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                            <input type="number" name="editedvehiclesprice" value="<?php echo $result["price"] ?>" class="text-black mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
                         </div>
                         <div class="mb-4">
                             <label for="" class="block text-sm font-medium text-gray-700 mb-1">Availability</label>
-                            <input type="number" name="vehiclesavailability" class="mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                            <input type="number" name="editedvehiclesavailability" value="<?php echo $result["availability"] ?>" class="text-black mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
                         </div>
                     </div>
                     <div class="mb-4">
                         <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                        <textarea name="vehiclesdescription" class="mt-1 p-2.5 border border-gray-300 rounded-md w-full h-24 resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required></textarea>
+                        <textarea name="editedvehiclesdescription" value="<?php echo $result["description"] ?>" class="text-black mt-1 p-2.5 border border-gray-300 rounded-md w-full h-24 resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required></textarea>
                     </div>
                     <div class="mb-4">
+                        <label for="model" class="block text-sm font-medium text-gray-700 mb-1">Mark</label>
+                        <input type="text" name="editedvehiclesmarque" value="<?php echo $result["Marque"] ?>" class="text-black mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                    </div>
+                    <input type="hidden" name="idEdeted" value="<?php echo $result["vehicle_id"] ?>" />
+                    <div class="mb-4">
                         <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                        <select name="vehiclescategory" class="mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <select name="editedvehiclescategory" class="text-black mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             <?php 
                             $getcategorie = new Admin();
                             $result = $getcategorie->getCategories();
@@ -185,10 +200,7 @@ if(isset($_POST['id_info'])){
                             ?>
                         </select>
                     </div>
-                    <div class="mb-4">
-                        <label for="model" class="block text-sm font-medium text-gray-700 mb-1">Mark</label>
-                        <input type="text" name="vehiclesmarque" class="mt-1 p-2.5 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
-                    </div>
+                    
                 </div>
             </div>
             <div class="flex justify-end space-x-3">
@@ -203,5 +215,21 @@ if(isset($_POST['id_info'])){
             </div>
         </div>
     </div>
+
+    <script>
+        const openModalBtn = document.getElementById('openModalBtnA');
+    const createModal = document.getElementById('edit_model');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+
+    openModalBtn.addEventListener('click', () => {
+    console.log("Modal button clicked!");
+    createModal.classList.remove('hidden');
+});
+
+    closeModalBtn.addEventListener('click', () => {
+        createModal.classList.add('hidden');
+    });
+    </script>
 </body>
 </html>
