@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Luxury
 ## 🚗 Drive & Loc - Car Rental Management System
 Project Context
@@ -41,3 +42,6 @@ Client activities.
 Backend: PHP (OOP), SQL
 Frontend: HTML, CSS, JavaScript (DataTables for dynamic pagination)
 Database: MySQL
+=======
+# Luxury_V2
+>>>>>>> f10bb17d805631e279c726a246c9a1c5516c0a8b
