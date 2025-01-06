@@ -21,7 +21,7 @@ public function filter($categorie) {
 }
 
 public function showVehiculeInfo($id_info){
-$stmt = $this->conn->prepare("SELECT vehicles.vehicle_id, 
+    $stmt = $this->conn->prepare("SELECT vehicles.vehicle_id, 
        vehicles.model, 
        vehicles.price, 
        vehicles.availability, 
@@ -32,11 +32,17 @@ $stmt = $this->conn->prepare("SELECT vehicles.vehicle_id,
 FROM vehicles
 JOIN categories ON vehicles.category_id = categories.category_id
 WHERE vehicles.vehicle_id = :Info_Id");
-$stmt->bindParam(':Info_Id', $id_info);
-if ($stmt->execute()) {
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->bindParam(':Info_Id', $id_info);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        return $result;
+    } else {
+        return false;
+    }
 }
-}
+
 
 public function chercheByName($chercheValue){
     $stmt = $this->conn->prepare("SELECT * FROM vehicles WHERE model LIKE :cherche");

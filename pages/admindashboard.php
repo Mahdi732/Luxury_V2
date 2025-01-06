@@ -1,5 +1,13 @@
 <?php
 session_start();
+require_once("../classes/client.php");
+$afficheReservation = new Client();
+$result = $afficheReservation->afficheReservation($_SESSION["user_id"]);
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $annulation = $_POST["anuulationForReservation"];
+    $anReservation = new Client();
+    $anReservation->annuleReservation($annulation);
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -200,57 +208,52 @@ session_start();
                                   <th class="text-gray-400 font-medium pb-4">Véhicule</th>
                                   <th class="text-gray-400 font-medium pb-4">Date de début</th>
                                   <th class="text-gray-400 font-medium pb-4">Date de fin</th>
+                                  <th class="text-gray-400 font-medium pb-4">Pick Of Location</th>
+                                  <th class="text-gray-400 font-medium pb-4">Drop Of Location</th>
+                                  <th class="text-gray-400 font-medium pb-4">Price</th>
                                   <th class="text-gray-400 font-medium pb-4">Statut</th>
-                                  <th class="text-gray-400 font-medium pb-4">Actions</th>
+                                  <th class="text-gray-400 font-medium pb-4">remove</th>
                               </tr>
                           </thead>
                           <tbody class="divide-y divide-white/10">
+                            <?php
+                            if (isset($result)) {
+                            foreach($result as $results){
+                            ?>
                               <tr class="text-white">
                                   <td class="py-4">
                                       <div class="flex items-center space-x-3">
-                                          <img src="/api/placeholder/48/48" alt="Car" class="w-12 h-12 rounded-lg object-cover">
+                                          <img src="<?php echo $results["image_url"] ?>" alt="Car" class="w-12 h-12 rounded-lg object-cover">
                                           <div>
-                                              <p class="font-medium">Mercedes AMG GT</p>
-                                              <p class="text-sm text-gray-400">Noir • AB-123-CD</p>
+                                              <p class="font-medium"><?php echo $results["model"] ?></p>
+                                              <p class="text-sm text-gray-400"><?php echo $results["Marque"] ?></p>
                                           </div>
                                       </div>
                                   </td>
-                                  <td class="py-4">15 Dec 2024</td>
-                                  <td class="py-4">22 Dec 2024</td>
-                                  <td class="py-4">
-                                      <span class="px-3 py-1 rounded-full text-sm font-medium bg-emerald-400/10 text-emerald-400">
-                                          En cours
-                                      </span>
-                                  </td>
-                                  <td class="py-4">
-                                      <button class="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white hover:opacity-90 transition-opacity">
-                                          Détails
-                                      </button>
-                                  </td>
-                              </tr>
-                              <tr class="text-white">
-                                  <td class="py-4">
-                                      <div class="flex items-center space-x-3">
-                                          <img src="/api/placeholder/48/48" alt="Car" class="w-12 h-12 rounded-lg object-cover">
-                                          <div>
-                                              <p class="font-medium">Porsche 911 GT3</p>
-                                              <p class="text-sm text-gray-400">Blanc • EF-456-GH</p>
-                                          </div>
-                                      </div>
-                                  </td>
-                                  <td class="py-4">18 Dec 2024</td>
-                                  <td class="py-4">25 Dec 2024</td>
+                                  <td class="py-4"><?php echo $results["start_date"] ?></td>
+                                  <td class="py-4"><?php echo $results["end_date"] ?></td>
+                                  <td class="py-4"><?php echo $results["pickup_location"] ?></td>
+                                  <td class="py-4"><?php echo $results["dropoff_location"] ?></td>
+                                  <td class="py-4"><?php echo $results["price"] ?></td>
                                   <td class="py-4">
                                       <span class="px-3 py-1 rounded-full text-sm font-medium bg-yellow-400/10 text-yellow-400">
-                                          À venir
+                                      <?php echo $results["status"] ?>
                                       </span>
                                   </td>
                                   <td class="py-4">
-                                      <button class="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white hover:opacity-90 transition-opacity">
-                                          Détails
+                                    <form action="" method="POST">
+                                        <input type="hidden" name="anuulationForReservation" value="<?php echo $results["reservation_id"] ?>"></input>
+                                      <button type="submit" class="px-3 py-1 rounded-lg text-sm font-medium bg-red-800 text-yellow-400">
+                                      annule
                                       </button>
+                                    </form>
                                   </td>
+                                  
                               </tr>
+                              <?php
+                            }
+                        }
+                              ?>
                           </tbody>
                       </table>
                   </div>

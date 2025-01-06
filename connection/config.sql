@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS drive_and_loc;
-USE drive_and_loc;
+CREATE DATABASE IF NOT EXISTS luxury;
+USE luxury;
 
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -20,15 +20,20 @@ CREATE TABLE categories (
 );
 
 CREATE TABLE vehicles (
-    vehicle_id INT AUTO_INCREMENT PRIMARY KEY,
-    category_id INT,
+    vehicle_id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    category_id INT(11),
     model VARCHAR(100) NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    availability BOOLEAN DEFAULT TRUE,
-    image_url VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+    price DECIMAL(10,2) NOT NULL,
+    description TEXT, 
+    availability ENUM('available', 'reserved') DEFAULT 'available',
+    image_url VARCHAR(255), 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, 
+    Marque VARCHAR(150),
+    start_date DATE, 
+    end_date DATE,
+    location VARCHAR(255);
+    FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE 
 );
 
 CREATE TABLE reservations (
@@ -56,4 +61,37 @@ CREATE TABLE reviews (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (vehicle_id) REFERENCES vehicles(vehicle_id)
+);
+
+CREATE TABLE blog_articles (
+    article_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    tags JSON, 
+    image_url VARCHAR(255), 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE blog_comments (
+    comment_id INT AUTO_INCREMENT PRIMARY KEY,
+    article_id INT,
+    user_id INT,
+    comment TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (article_id) REFERENCES blog_articles(article_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE favorites (
+    favorite_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    article_id INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (article_id) REFERENCES blog_articles(article_id) ON DELETE CASCADE
 );

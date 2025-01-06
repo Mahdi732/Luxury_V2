@@ -1,7 +1,7 @@
 <?php
 class Database {
     private $host = "localhost";
-    private $dbname = "drive_and_loc";
+    private $dbname = "luxury";
     private $servername = "root";
     private $pass = "";
     protected $conn;

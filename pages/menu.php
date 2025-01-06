@@ -72,7 +72,7 @@ require_once('../classes/menu.php');
 </head>
 <body class="bg-black min-h-screen">
     <!-- Navigation -->
-    <nav class="h-[10rem] w-full z-50 bg-zinc-950/90 backdrop-blur-lg">
+    <nav class=" w-full z-50 bg-zinc-950/90 backdrop-blur-lg">
         <div class="max-w-screen-2xl mx-auto px-8">
             <div class="flex justify-between items-center text-white h-28">
                 <a href="../index.php" class="text-xl syncopate">Luxury</a>
@@ -100,12 +100,12 @@ require_once('../classes/menu.php');
                         }elseif (isset($_SESSION["admin"]) && $_SESSION["admin"] === false){
                             echo '<div class="flex items-center gap-6">
                             <div class="relative group">
-                                    <a href="pages/admindashboard.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
+                                    <a href="admindashboard.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
                                         <img src="https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_1280.png" alt="Profile" class="w-10 h-10 rounded-full ">
                                     </a>
                                     <div class="absolute right-0 w-48 py-2 mt-2 bg-zinc-900 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all">
-                                        <a href="pages/admindashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
-                                        <a href="pages/admindashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
+                                        <a href="admindashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
+                                        <a href="admindashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
                                         <hr class="my-2 border-zinc-700">
                                         <form method="POST" action="classes/user.php">
                                         <button type="submit" name="log_out" class="block px-4 w-full text-start py-2 text-sm text-red-400 hover:bg-zinc-800">Logout</button>

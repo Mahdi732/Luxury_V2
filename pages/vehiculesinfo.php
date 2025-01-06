@@ -8,6 +8,7 @@ if(isset($_POST['id_info'])){
     $result = $menu->showVehiculeInfo($car_id);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
