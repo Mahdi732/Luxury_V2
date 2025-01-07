@@ -36,20 +36,27 @@ class Client {
     }
 
     public function annuleReservation($idAnnulation){
-        $stmt = $this->conn->prepare("DELETE FROM reservations WHERE reservation_id = $idAnnulation");
+        $stmt = $this->conn->prepare("DELETE FROM reservations WHERE reservation_id = :idAnnulation");
+        $stmt->bindParam(':idAnnulation', $idAnnulation);
         $stmt->execute();
         header("Location: ../pages/admindashboard.php");
         exit();
     }
 }
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $user = $_POST["idResrvationClient"] ?? null;
-    $vehicule = $_POST["idResrvationVehicule"] ?? null;
-     $startDate = $_POST["start_date"] ?? null;
-    $endDate = $_POST["end_date"] ?? null;
-    $pickupLocation = $_POST["pickup_location"] ?? null;
-    $dropoffLocation = $_POST["dropoff_location"] ?? null;
-    $reserved = new client();
-    $reserved->reservation($user, $vehicule, $startDate, $endDate, $pickupLocation, $dropoffLocation);
+    if(isset($_POST["idResrvationClient"]) && isset($_POST["idResrvationVehicule"]) && isset($_POST["start_date"]) && isset($_POST["end_date"]) && isset($_POST["pickup_location"]) && isset($_POST["dropoff_location"])) {
+        $user = $_POST["idResrvationClient"];
+        $vehicule = $_POST["idResrvationVehicule"];
+        $startDate = $_POST["start_date"];
+        $endDate = $_POST["end_date"];
+        $pickupLocation = $_POST["pickup_location"];
+        $dropoffLocation = $_POST["dropoff_location"];
+        $reserved = new Client();
+        $reserved->reservation($user, $vehicule, $startDate, $endDate, $pickupLocation, $dropoffLocation);
+    } else if(isset($_POST["anuulationForReservation"])) {
+        $annulation = $_POST["anuulationForReservation"];
+        $anReservation = new Client();
+        $anReservation->annuleReservation($annulation);
+    }
 }
 ?>

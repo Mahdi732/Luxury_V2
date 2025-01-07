@@ -79,6 +79,22 @@ public function editVehicles($id, $name, $img, $price, $desc, $ava, $cate, $mark
         }
     
 }
+
+public function afficheReservationForAdmin(){
+    $stmt = $this->conn->prepare("SELECT
+    reservations.start_date,
+    reservations.end_date,
+    reservations.status,
+    vehicles.model,
+    vehicles.price,
+    users.username
+FROM reservations 
+JOIN vehicles ON reservations.vehicle_id = vehicles.vehicle_id
+JOIN users ON reservations.user_id = users.user_id
+");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 }
 
 

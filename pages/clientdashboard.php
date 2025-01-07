@@ -1,5 +1,7 @@
 <?php
 require_once('../classes/admin.php');
+$afficheTheReservationInTableForAdmin = new Admin();
+$resultOfafficheTheReservationInTableForAdmin = $afficheTheReservationInTableForAdmin->afficheReservationForAdmin();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -272,27 +274,17 @@ require_once('../classes/admin.php');
                                 </tr>
                             </thead>
                             <tbody class="text-sm">
+                                <?php
+                                foreach($resultOfafficheTheReservationInTableForAdmin as $result){
+                                ?>
                                 <tr class="text-white">
-                                    <td class="py-3">James Wilson</td>
-                                    <td class="py-3">Rolls-Royce Ghost</td>
-                                    <td class="py-3">3 days</td>
-                                    <td class="py-3">€4,500</td>
+                                    <td class="py-3"><?php $result["username"] ?></td>
+                                    <td class="py-3"><?php $result["model"] ?></td>
+                                    <td class="py-3"><?php $result["end_date"] ?></td>
+                                    <td class="py-3"><?php $result["price"] ?></td>
                                     <td class="py-3"><span class="px-3 py-1 rounded-full text-xs bg-emerald-400/10 text-emerald-400">Active</span></td>
                                 </tr>
-                                <tr class="text-white">
-                                    <td class="py-3">Sarah Chen</td>
-                                    <td class="py-3">Bentley Continental GT</td>
-                                    <td class="py-3">5 days</td>
-                                    <td class="py-3">€6,200</td>
-                                    <td class="py-3"><span class="px-3 py-1 rounded-full text-xs bg-blue-400/10 text-blue-400">Upcoming</span></td>
-                                </tr>
-                                <tr class="text-white">
-                                    <td class="py-3">Michael Brown</td>
-                                    <td class="py-3">Lamborghini Huracán</td>
-                                    <td class="py-3">2 days</td>
-                                    <td class="py-3">€3,800</td>
-                                    <td class="py-3"><span class="px-3 py-1 rounded-full text-xs bg-gray-400/10 text-gray-400">Completed</span></td>
-                                </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>
