@@ -6,5 +6,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $chercheResult = $cherches->chercheByName($chercheValue);
     echo json_encode($chercheResult);
 }
-
 ?>

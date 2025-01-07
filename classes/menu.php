@@ -70,7 +70,5 @@ public function pageNumber(){
     $numberOfThePage = $total_vehicles / $numberForAfiche;
     return $numberOfThePage;
 }
-
-
 }
 ?>
