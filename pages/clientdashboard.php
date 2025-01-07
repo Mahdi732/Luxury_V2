@@ -2,6 +2,12 @@
 require_once('../classes/admin.php');
 $afficheTheReservationInTableForAdmin = new Admin();
 $resultOfafficheTheReservationInTableForAdmin = $afficheTheReservationInTableForAdmin->afficheReservationForAdmin();
+if (isset($_POST["Status"], $_POST["statusid"])) {
+    $statusSelected = $_POST["Status"];
+    $statusId = $_POST["statusid"];
+    $modefyStatus = new Admin();
+    $modefyStatus->insertStatus($statusSelected, $statusId);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -275,16 +281,33 @@ $resultOfafficheTheReservationInTableForAdmin = $afficheTheReservationInTableFor
                             </thead>
                             <tbody class="text-sm">
                                 <?php
+                                if ($resultOfafficheTheReservationInTableForAdmin) {
                                 foreach($resultOfafficheTheReservationInTableForAdmin as $result){
                                 ?>
                                 <tr class="text-white">
-                                    <td class="py-3"><?php $result["username"] ?></td>
-                                    <td class="py-3"><?php $result["model"] ?></td>
-                                    <td class="py-3"><?php $result["end_date"] ?></td>
-                                    <td class="py-3"><?php $result["price"] ?></td>
-                                    <td class="py-3"><span class="px-3 py-1 rounded-full text-xs bg-emerald-400/10 text-emerald-400">Active</span></td>
+                                    <td class="py-3 text-white"><?php echo $result["username"] ?></td>
+                                    <td class="py-3"><?php echo $result["model"] ?></td>
+                                    <td class="py-3"><?php $date1 = new DateTime($result["end_date"]);
+                                    $date2 = new DateTime($result["start_date"]);
+                                    $diff = $date1->diff($date2);
+                                    echo "Month " . $diff->m . " Days " . $diff->d ?>
+                                    </td>
+                                    <td class="py-3"><?php echo $result["price"] * $diff->d?> $</td>
+                                    <td class="py-3">
+                                        <form action="" method="POST">
+                                            <input type="hidden" name="statusid" value="<?php echo $result["user_id"]?>">
+                                        <select name="Status" onchange="this.form.submit()" id="" class="px-3 py-1 rounded-full text-xs bg-emerald-400/10 text-emerald-400" >
+                                        <option value="unavailable" disabled selected hidden><?php echo $result["status"] ?></option>
+                                            <option value="confirmed">confirmed</option>
+                                            <option value="pending">pending</option>
+                                            <option value="cancelled">cancelled</option>
+                                        </select>
+                                        </form>
+                                    </td>
                                 </tr>
-                                <?php } ?>
+                                <?php }
+                                }?>
+                                
                             </tbody>
                         </table>
                     </div>

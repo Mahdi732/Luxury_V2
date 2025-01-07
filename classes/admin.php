@@ -87,13 +87,23 @@ public function afficheReservationForAdmin(){
     reservations.status,
     vehicles.model,
     vehicles.price,
-    users.username
+    users.username,
+    users.user_id
 FROM reservations 
 JOIN vehicles ON reservations.vehicle_id = vehicles.vehicle_id
 JOIN users ON reservations.user_id = users.user_id
 ");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function insertStatus($status, $idstatus){
+    $stmt = $this->conn->prepare("UPDATE reservations
+    SET status = :status
+    WHERE user_id = :user");
+    $stmt->bindParam(":status", $status);
+    $stmt->bindParam(":user", $idstatus);
+    $stmt->execute();
 }
 }
 
