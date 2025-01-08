@@ -247,13 +247,7 @@ session_start();
                     <input type="text" placeholder="title" class="border p-2 rounded-lg flex-1">
                 </div>
                 <div class="flex items-center space-x-3 mb-4">
-                    <input hx-post="tags.php" 
-                    hx-trigger="blur, keyup changed delay:300ms"
-                    hx-target="#tagsPlace"
-                    hx-include="[name='tags[]']"  type="text" placeholder="Tags" name="tags[]" class="border p-2 rounded-lg flex-1">
-                </div>
-                <div class="tagsPlace">
-
+                    <input type="text" placeholder="Tags" name="tags[]" class="border p-2 rounded-lg flex-1">
                 </div>
                 <textarea 
                     class="w-full h-40 p-4 border rounded-lg resize-none mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
