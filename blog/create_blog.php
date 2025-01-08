@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
     <style>
 </style>
 </head>
@@ -18,15 +19,31 @@
                 <h2 class="text-xl font-bold text-center">Create Post</h2>
             </div>
 
-            <form class="p-4" 
-            hx-post="../classes/tags.php">
+            <form class="p-4" action="../classes/tags.php" method="POST">
+            <div class="flex flex-col space-y-2 mb-4">
+                <input 
+                    type="search" 
+                    placeholder="Your name" 
+                    name="nameTags" 
+                    class="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
                 <div class="flex items-center space-x-3 mb-4">
-                    <input type="text" placeholder="Your name" class="border p-2 rounded-lg flex-1">
+                <input type="text" name="addTags" id="addTags" placeholder="Search and add tags" class="border p-2 rounded-lg flex-1" >
+                <div class="flex flex-col space-y-2">
+                <input 
+                    type="search" 
+                    placeholder="Your name" 
+                    name="nameTags" 
+                    class="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    hx-post="../classes/tags.php" 
+                    hx-trigger="keyup changed" 
+                    hx-swap="innerHTML" 
+                    hx-target="#searchResults">
+                <div id="searchResults" class="rounded-lg border border-gray-200 shadow-lg bg-white max-h-60 overflow-y-auto p-2">
                 </div>
-                <div class="flex items-center space-x-3 mb-4">
-                    <input type="text" name="addTags[]" id="addTags" placeholder="add tags" class="border p-2 rounded-lg flex-1">
+            </div>
                 </div>
-                
                 <textarea 
                     class="w-full h-40 p-4 border rounded-lg resize-none mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="What's on your mind?"></textarea>
@@ -59,8 +76,6 @@
                 <div class="mb-4">
                     <select class="w-full p-2 border rounded-lg">
                         <option value="public">🌎 Public</option>
-                        <option value="friends">👥 Friends</option>
-                        <option value="private">🔒 Only me</option>
                     </select>
                 </div>
 
@@ -73,7 +88,17 @@
     </div>
 </body>
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
         let input = document.getElementById('addTags');
-        new Tagify(input)
-    </script>
+        window.tagify = new Tagify(input); 
+        document.addEventListener('click', function (event) {
+            if (event.target.closest('.tag')) {
+                let value = event.target.closest('.tag').value;
+                if (value) {
+                    window.tagify.addTags(value);
+                }
+            }
+        });
+    });
+</script>
 </html>
