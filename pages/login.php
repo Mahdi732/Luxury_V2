@@ -1,296 +1,95 @@
-<?php
-require_once "../classes/user.php";
-?>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DRIVE & LOC - Login Experience</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <style>
-        @keyframes gradientFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .gradient-text {
-            background: linear-gradient(to right, #ffffff, #666666, #ffffff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientFlow 8s linear infinite;
-        }
-
-        .input-glow:focus {
-            box-shadow: 0 0 20px rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .hover-glow:hover {
-            box-shadow: 0 0 30px rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
+    <title>Social Media Post Creator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
 </head>
-<body class="bg-[#0A0A0A] text-white min-h-screen">
-<nav class=" w-full z-100 bg-zinc-950/90 backdrop-blur-lg">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <div class="flex justify-between items-center h-28">
-                <a href="#" class="text-xl syncopate">Luxury</a>
-                <div class="hidden lg:flex items-center gap-16">
-                    <a href="#fleet" class="text-sm hover:text-zinc-300">FLEET</a>
-                    <a href="#experience" class="text-sm hover:text-zinc-300">EXPERIENCE</a>
-                    <a href="#contact" class="text-sm hover:text-zinc-300">CONTACT</a>
-                    <button class="px-8 py-4 bg-white text-black text-sm hover:bg-zinc-100">
-                        <a href="pages/login.php">Logni NOW</a>
-                    </button>
-                    
+<body class="bg-gray-100">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="text-2xl font-bold text-blue-600">SocialApp</div>
+                <div class="flex items-center space-x-4">
+                    <img src="/api/placeholder/40/40" alt="Profile" class="w-10 h-10 rounded-full">
+                    <span class="font-medium">John Doe</span>
                 </div>
             </div>
         </div>
     </nav>
-    
-    <div class="fixed inset-0" id="canvas-container"></div>
-    <div class="fixed inset-0 bg-gradient-to-br from-black/80 via-transparent to-black/80"></div>
 
-    <div class="relative z-10 w-full max-w-screen-xl mx-auto px-6 h-screen flex items-center">
-    <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-24">
-            <div class="space-y-12">
-                <div id="loginTitle" class="space-y-8">
-                    <h2 class="text-8xl font-extralight leading-none gradient-text">
-                        VOTRE<br/>
-                        EXPÉRIENCE<br/>
-                        COMMENCE
-                    </h2>
-                    <p class="text-lg text-white/60 max-w-md">
-                        Accédez à notre collection exclusive de véhicules et services premium.
-                    </p>
-                </div>
-
-                <div id="signupTitle" class="space-y-8 hidden">
-                    <h2 class="text-8xl font-extralight leading-none gradient-text">
-                        CRÉEZ<br/>
-                        VOTRE<br/>
-                        COMPTE
-                    </h2>
-                    <p class="text-lg text-white/60 max-w-md">
-                        Rejoignez notre communauté exclusive et accédez à des services premium.
-                    </p>
-                </div>
-
-                <div class="flex items-center space-x-8">
-                    <div class="h-[1px] w-12 bg-white/20"></div>
-                    <span id="stepIndicator" class="text-xs tracking-[0.3em] text-white/50">01 / LOGIN</span>
-                </div>
-            </div>
-
-            <div class="relative">
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur"></div>
-                <div class="relative bg-black/40 backdrop-blur-2xl p-12 border border-white/10">
-                    <!-- Login Form -->
-                    <form method="POST" action="../classes/user.php" id="loginForm" class="space-y-12">
-                        <div class="space-y-6">
-                            <label class="block text-xs tracking-[0.3em] text-white/50">EMAIL</label>
-                            <input 
-                                name="email_log"
-                                type="email" 
-                                class="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-white transition-all duration-500 input-glow"
-                                placeholder="votre@email.com"
-                            >
+    <!-- Main Content -->
+    <main class="max-w-2xl mx-auto mt-8 px-4">
+        <!-- Post Creation Card -->
+        <div class="bg-white rounded-lg shadow-md p-4">
+            <div class="flex space-x-4">
+                <img src="/api/placeholder/40/40" alt="Profile" class="w-12 h-12 rounded-full">
+                <div class="flex-1">
+                    <textarea 
+                        class="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="What's on your mind?"></textarea>
+                    
+                    <!-- Post Actions -->
+                    <div class="mt-4 flex items-center justify-between border-t border-b border-gray-200 py-3">
+                        <div class="flex space-x-6">
+                            <button class="flex items-center space-x-2 text-gray-600 hover:text-gray-800">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <span>Photo/Video</span>
+                            </button>
+                            <button class="flex items-center space-x-2 text-gray-600 hover:text-gray-800">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>Feeling/Activity</span>
+                            </button>
                         </div>
-
-                        <div class="space-y-6">
-                            <label class="block text-xs tracking-[0.3em] text-white/50">MOT DE PASSE</label>
-                            <input 
-                                name="password_log"
-                                type="password" 
-                                class="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-white transition-all duration-500 input-glow"
-                                placeholder="••••••••"
-                            >
-                        </div>
-
-                        <div class="flex justify-between items-center">
-                            <label class="flex items-center space-x-3 group cursor-pointer">
-                                <div class="w-5 h-5 border border-white/20 flex items-center justify-center group-hover:border-white/40 transition-colors">
-                                    <div class="w-3 h-3 bg-white/0 group-hover:bg-white/10 transition-colors"></div>
-                                </div>
-                                <span class="text-sm text-white/60">Rester connecté</span>
-                            </label>
-                            <a href="#" class="text-sm text-white/60 hover:text-white transition-colors">Mot de passe oublié?</a>
-                        </div>
-
-                        <button type="submit" class="w-full py-4 border border-white/20 text-sm tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500 hover-glow group">
-                            <span class="group-hover:tracking-[0.4em] transition-all duration-500">CONNEXION</span>
+                    </div>
+                    
+                    <!-- Post Button -->
+                    <div class="mt-4">
+                        <button class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Post
                         </button>
-
-                        <div class="space-y-6">
-                            <div class="flex items-center space-x-4">
-                                <div class="h-[1px] flex-grow bg-white/20"></div>
-                                <span class="text-xs tracking-[0.3em] text-white/50">OU</span>
-                                <div class="h-[1px] flex-grow bg-white/20"></div>
-                            </div>
-                            
-                            <div class="grid grid-cols-2 gap-4">
-                                <button class="py-4 border border-white/20 text-sm hover:bg-white/5 transition-all duration-500 hover-glow">
-                                    GOOGLE
-                                </button>
-                                <button class="py-4 border border-white/20 text-sm hover:bg-white/5 transition-all duration-500 hover-glow">
-                                    APPLE
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="mt-12 text-center">
-                            <span class="text-white/60">Pas encore de compte? </span>
-                            <a href="#" id="showSignup" class="text-white hover:text-white/60 transition-colors">Créer un compte</a>
-                        </div>
-                    </form>
-
-                    <form method="POST" action="../classes/user.php" id="signupForm" class="space-y-8 hidden">
-                        <div class="grid grid-cols-2 gap-6">
-                            <div class="space-y-4">
-                                <label class="block text-xs tracking-[0.3em] text-white/50">PRÉNOM</label>
-                                <input 
-                                    name="first_name"
-                                    type="text" 
-                                    class="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-white transition-all duration-500 input-glow"
-                                >
-                            </div>
-                            <div class="space-y-4">
-                                <label class="block text-xs tracking-[0.3em] text-white/50">NOM</label>
-                                <input 
-                                    name="last_name"
-                                    type="text" 
-                                    class="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-white transition-all duration-500 input-glow"
-                                >
-                            </div>
-                        </div>
-
-                        <div class="space-y-4">
-                            <label class="block text-xs tracking-[0.3em] text-white/50">EMAIL</label>
-                            <input 
-                                name="email_sig"
-                                type="email" 
-                                class="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-white transition-all duration-500 input-glow"
-                            >
-                        </div>
-
-                        <div class="space-y-6">
-                            <div class="space-y-4">
-                                <label class="block text-xs tracking-[0.3em] text-white/50">MOT DE PASSE</label>
-                                <input 
-                                    type="password" 
-                                    class="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-white transition-all duration-500 input-glow"
-                                >
-                            </div>
-                            <div class="space-y-4">
-                                <label class="block text-xs tracking-[0.3em] text-white/50">CONFIRMER LE MOT DE PASSE</label>
-                                <input 
-                                    name="password_sig"
-                                    type="password" 
-                                    class="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-white transition-all duration-500 input-glow"
-                                >
-                            </div>
-                        </div>
-
-                        <div class="flex items-start space-x-3 group cursor-pointer">
-                            <div class="w-5 h-5 border border-white/20 flex items-center justify-center group-hover:border-white/40 transition-colors mt-1">
-                                <input type="checkbox" class="hidden">
-                                <div class="w-3 h-3 bg-white/0 group-hover:bg-white/10 transition-colors"></div>
-                            </div>
-                            <span class="text-sm text-white/60">J'accepte les conditions générales d'utilisation et la politique de confidentialité</span>
-                        </div>
-
-                        <button type="submit" class="w-full py-4 border border-white/20 text-sm tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500 hover-glow group">
-                            <span class="group-hover:tracking-[0.4em] transition-all duration-500">CRÉER MON COMPTE</span>
-                        </button>
-
-                        <div class="text-center">
-                            <span class="text-white/60">Déjà membre? </span>
-                            <a href="#" id="showLogin" class="text-white hover:text-white/60 transition-colors">Se connecter</a>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 5000;
-        const posArray = new Float32Array(particlesCount * 3);
-
-        for(let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 5;
-        }
-
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.005,
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0.4
-        });
-
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-
-        camera.position.z = 3;
-
-        let mouseX = 0;
-        let mouseY = 0;
-
-        document.addEventListener('mousemove', (event) => {
-            mouseX = event.clientX / window.innerWidth - 0.5;
-            mouseY = event.clientY / window.innerHeight - 0.5;
-        });
-
-        function animate() {
-            requestAnimationFrame(animate);
-            
-            particlesMesh.rotation.y += 0.001;
-            particlesMesh.rotation.x += 0.001;
-
-            particlesMesh.rotation.y += mouseX * 0.1;
-            particlesMesh.rotation.x += mouseY * 0.1;
-
-            renderer.render(scene, camera);
-        }
-
-        animate();
-
-        document.getElementById('showSignup').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('loginForm').classList.add('hidden');
-            document.getElementById('signupForm').classList.remove('hidden');
-            document.getElementById('loginTitle').classList.add('hidden');
-            document.getElementById('signupTitle').classList.remove('hidden');
-            document.getElementById('stepIndicator').textContent = '02 / INSCRIPTION';
-        });
-
-        document.getElementById('showLogin').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('signupForm').classList.add('hidden');
-            document.getElementById('loginForm').classList.remove('hidden');
-            document.getElementById('signupTitle').classList.add('hidden');
-            document.getElementById('loginTitle').classList.remove('hidden');
-            document.getElementById('stepIndicator').textContent = '01 / LOGIN';
-        });
-    </script>
+        <!-- Example Previous Post -->
+        <div class="bg-white rounded-lg shadow-md p-4 mt-6">
+            <div class="flex items-center space-x-3">
+                <img src="/api/placeholder/40/40" alt="Profile" class="w-10 h-10 rounded-full">
+                <div>
+                    <div class="font-medium">John Doe</div>
+                    <div class="text-gray-500 text-sm">2 hours ago</div>
+                </div>
+            </div>
+            <p class="mt-4">This is an example post! How is everyone doing today? 😊</p>
+            <div class="mt-4 flex items-center space-x-4 text-gray-600">
+                <button class="flex items-center space-x-2 hover:text-blue-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                    </svg>
+                    <span>Like</span>
+                </button>
+                <button class="flex items-center space-x-2 hover:text-blue-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    <span>Comment</span>
+                </button>
+                <button class="flex items-center space-x-2 hover:text-blue-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                    </svg>
+                    <span>Share</span>
+                </button>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

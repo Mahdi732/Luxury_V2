@@ -31,7 +31,7 @@ session_start();
                 <div class="hidden lg:flex items-center gap-16">
                     <a href="pages/menu.php" class="text-sm hover:text-zinc-300">FLEET</a>
                     <a href="#experience" class="text-sm hover:text-zinc-300">EXPERIENCE</a>
-                    <a href="#contact" class="text-sm hover:text-zinc-300">CONTACT</a>
+                    <a href="pages/post.php" class="text-sm hover:text-zinc-300">POST</a>
                     <?php
                         if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
                             echo '<div class="flex items-center gap-6">

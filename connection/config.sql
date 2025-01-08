@@ -68,7 +68,6 @@ CREATE TABLE blog_articles (
     user_id INT,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
-    tags JSON, 
     image_url VARCHAR(255), 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -95,3 +94,29 @@ CREATE TABLE favorites (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (article_id) REFERENCES blog_articles(article_id) ON DELETE CASCADE
 );
+CREATE TABLE tags (
+    tag_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE article_tags (
+    article_id INT,
+    tag_id INT,
+    PRIMARY KEY (article_id, tag_id),
+    FOREIGN KEY (article_id) REFERENCES blog_articles(article_id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES tags(tag_id) ON DELETE CASCADE
+);
+
+SELECT ba.title 
+FROM blog_articles ba
+JOIN article_tags at ON ba.article_id = at.article_id
+JOIN tags t ON at.tag_id = t.tag_id
+WHERE t.name = :tag_name;
+
+SELECT t.name 
+FROM tags t
+JOIN article_tags at ON t.tag_id = at.tag_id
+WHERE at.article_id = :article_id;
+
