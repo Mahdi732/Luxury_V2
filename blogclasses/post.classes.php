@@ -18,22 +18,28 @@ class Blog {
         $stmt->bindParam(':image', $imagePath);
         $stmt->bindParam(':theme', $theme);
         $stmt->execute();
+        return $this->conn->lastInsertId();
     }
 
-    public function tagsBlog($tags, $blog){
-        $stmt = $this->conn->prepare("INSERT INTO article_tags (article_id, tag_id) VALUES (:blog, :tags)");
-        $stmt->bindParam(':blog', $blog);
+    public function getTagId($tagName) {
+        $stmt = $this->conn->prepare("SELECT tag_id FROM tags WHERE name = :tagName");
+        $stmt->bindParam(':tagName', $tagName);
+        $stmt->execute();
+
+        $tag = $stmt->fetch();
+
+        if ($tag) {
+            return $tag['tag_id']; 
+        }
+    }
+
+    public function insertTagRelation($article_id, $tag_id) {
+        $stmt = $this->conn->prepare("INSERT INTO article_tags (article_id, tag_id) VALUES (:article_id, :tag_id)");
+        $stmt->bindParam(':article_id', $article_id);
+        $stmt->bindParam(':tag_id', $tag_id);
+        $stmt->execute();
     }
 }
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     $tags = json_decode($_POST['addTags'], true);
-//     if (is_array($tags)) {
-//     foreach ($tags as $tag) {
-//         $insertTags = new Blog();
-//         $insertTags->insertBlog($tag['value']);
-//     }
-// }
-// }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_SESSION["user_id"];
@@ -66,7 +72,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $blog = new Blog();
-    $blog->insertBlog($id, $name, $content, $imagePath, $theme);
+    $article_id = $blog->insertBlog($id, $name, $content, $imagePath, $theme);
+    
+    $tags = json_decode($_POST['addTags'], true);
+    if (is_array($tags)) {
+        foreach ($tags as $tag) {
+            $tag_id = $blog->getTagId($tag['value']);
+            if ($tag_id) {
+                $blog->insertTagRelation($article_id, $tag_id);
+            }
+        }
 }
-
+}
 ?>
