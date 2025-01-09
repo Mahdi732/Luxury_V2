@@ -17,10 +17,62 @@ $result = $getTheResultOfThems->getAllThemes();
     <style>
 </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-[#18191A]">
+<nav class=" w-full z-50 bg-zinc-950/90 backdrop-blur-lg">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex justify-between items-center h-28">
+                <a href="../index.php" class="text-xl text-white syncopate">Luxury</a>
+                <div class="hidden lg:flex items-center gap-16">
+                    <a href="../pages/menu.php" class="text-sm text-white hover:text-zinc-300">FLEET</a>
+                    <a href="#experience" class="text-sm text-white hover:text-zinc-300">EXPERIENCE</a>
+                    <a href="post.php" class="text-sm text-white hover:text-zinc-300">POST</a>
+                    <?php
+                        if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
+                            echo '<div class="flex items-center gap-6">
+                            <div class="relative group">
+                                    <a href="../pages/clientdashboard.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
+                                        <img src="https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_1280.png" alt="Profile" class="w-10 h-10 rounded-full ">
+                                    </a>
+                                    <div class="absolute right-0 w-48 py-2 mt-2 bg-zinc-900 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all">
+                                        <a href="../pages/clientdashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
+                                        <a href="../pages/clientdashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
+                                        <hr class="my-2 border-zinc-700">
+                                        <form method="POST" action="classes/user.php">
+                                        <button type="submit" name="log_out" class="block px-4 w-full text-start py-2 text-sm text-red-400 hover:bg-zinc-800">Logout</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>';
+                        }elseif (isset($_SESSION["admin"]) && $_SESSION["admin"] === false){
+                            echo '<div class="flex items-center gap-6">
+                            <div class="relative group">
+                                    <a href="../pages/admindashboard.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
+                                        <img src="https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_1280.png" alt="Profile" class="w-10 h-10 rounded-full ">
+                                    </a>
+                                    <div class="absolute right-0 w-48 py-2 mt-2 bg-zinc-900 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all">
+                                        <a href="../pages/admindashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
+                                        <a href="../pages/admindashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
+                                        <hr class="my-2 border-zinc-700">
+                                        <form method="POST" action="classes/user.php">
+                                        <button type="submit" name="log_out" class="block px-4 w-full text-start py-2 text-sm text-red-400 hover:bg-zinc-800">Logout</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>';
+                        }else {
+                            echo '<button class="px-8 py-4 bg-white text-black text-sm hover:bg-zinc-100">
+                                <a href="login.php">Logni NOW</a>
+                              </button>';
+                        }
+                    
+                    ?>
+                    
+                </div>
+            </div>
+        </div>
+    </nav>
     <div class="min-h-screen flex items-center justify-center p-4">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-lg">
-            <!-- Header -->
             <div class="p-4 border-b">
                 <h2 class="text-xl font-bold text-center">Create Post</h2>
             </div>

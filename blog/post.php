@@ -1,5 +1,9 @@
 <?php
-session_start();
+require_once('../blogclasses/post.classes.php');
+
+$affichePost = new Blog();
+$result = $affichePost->affichePost();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,6 +12,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facebook Clone Design</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
@@ -30,19 +35,19 @@ session_start();
             <div class="flex justify-between items-center h-28">
                 <a href="../index.php" class="text-xl text-white syncopate">Luxury</a>
                 <div class="hidden lg:flex items-center gap-16">
-                    <a href="menu.php" class="text-sm text-white hover:text-zinc-300">FLEET</a>
+                    <a href="../pages/menu.php" class="text-sm text-white hover:text-zinc-300">FLEET</a>
                     <a href="#experience" class="text-sm text-white hover:text-zinc-300">EXPERIENCE</a>
                     <a href="#contact" class="text-sm text-white hover:text-zinc-300">CONTACT</a>
                     <?php
                         if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
                             echo '<div class="flex items-center gap-6">
                             <div class="relative group">
-                                    <a href="clientdashboard.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
+                                    <a href="../pages/clientdashboard.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
                                         <img src="https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_1280.png" alt="Profile" class="w-10 h-10 rounded-full ">
                                     </a>
                                     <div class="absolute right-0 w-48 py-2 mt-2 bg-zinc-900 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all">
-                                        <a href="clientdashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
-                                        <a href="clientdashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
+                                        <a href="../pages/clientdashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
+                                        <a href="../pages/clientdashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
                                         <hr class="my-2 border-zinc-700">
                                         <form method="POST" action="classes/user.php">
                                         <button type="submit" name="log_out" class="block px-4 w-full text-start py-2 text-sm text-red-400 hover:bg-zinc-800">Logout</button>
@@ -53,12 +58,12 @@ session_start();
                         }elseif (isset($_SESSION["admin"]) && $_SESSION["admin"] === false){
                             echo '<div class="flex items-center gap-6">
                             <div class="relative group">
-                                    <a href="admindashboard.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
+                                    <a href="../pages/admindashboard.php" class="flex items-center gap-2 hover:text-zinc-300 transition-all">
                                         <img src="https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_1280.png" alt="Profile" class="w-10 h-10 rounded-full ">
                                     </a>
                                     <div class="absolute right-0 w-48 py-2 mt-2 bg-zinc-900 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all">
-                                        <a href="admindashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
-                                        <a href="admindashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
+                                        <a href="../pages/admindashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Profile Settings</a>
+                                        <a href="../pages/admindashboard.php" class="block px-4 py-2 text-sm hover:bg-zinc-800">Dashboard</a>
                                         <hr class="my-2 border-zinc-700">
                                         <form method="POST" action="classes/user.php">
                                         <button type="submit" name="log_out" class="block px-4 w-full text-start py-2 text-sm text-red-400 hover:bg-zinc-800">Logout</button>
@@ -120,51 +125,55 @@ session_start();
                     </div>
                 </div>
 
-                <!-- Create Post -->
                 <div class="bg-[#242526] rounded-lg shadow mb-4">
                     <div class="p-4">
                         <div class="flex items-center space-x-2">
-                            <img src="/api/placeholder/40/40" alt="Profile" class="w-10 h-10 rounded-full">
-                            <input type="text" placeholder="Find The Post That You Want " class="bg-[#3A3B3C] rounded-full py-2 px-4 text-gray-200 placeholder-gray-400 w-full">
+                            <input type="search"
+                            hx-post="../blogclasses/post.classes.php"
+                            hx-trigger="keyup changed"
+                            hx-swap="innerHTML"
+                            hx-target="#idContainer" name="rechercheByName" placeholder="Find The Post That You Want " class="bg-[#3A3B3C] rounded-full py-2 px-4 text-gray-200 placeholder-gray-400 w-full">
                         </div>
                         <div class="border-t border-[#3A3B3C] mt-4 pt-4">
                             <div class="flex justify-between">
                                 <button class="buttonAfficheForm flex items-center space-x-2 hover:bg-[#3A3B3C] px-6 py-2 rounded-lg">
                                     <i class="fas fa-video text-red-500"></i>
-                                    <span class="text-gray-300">video</span>
+                                    <span class="text-gray-300"><a href="create_blog.php">video</a></span>
                                 </button>
                                 <button class="buttonAfficheForm flex items-center space-x-2 hover:bg-[#3A3B3C] px-6 py-2 rounded-lg">
                                     <i class="fas fa-images text-green-500"></i>
-                                    <span class="text-gray-300">Photo</span>
+                                    <span class="text-gray-300"><a href="create_blog.php">Photo</a></span>
                                 </button>
                                 <button class="buttonAfficheForm flex items-center space-x-2 hover:bg-[#3A3B3C] px-6 py-2 rounded-lg">
                                     <i class="fas fa-smile text-yellow-500"></i>
-                                    <span class="text-gray-300">Feeling/activity</span>
+                                    <span class="text-gray-300"><a href="create_blog.php">Feeling/activity</a></span>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Posts -->
-                <div class="space-y-4">
-                    <!-- Post 1 -->
+                <div id="idContainer" class="space-y-4">
+                    <?php
+                    foreach ($result as $result) {
+                    if ($result["statu"] === 'approved') {
+                    ?>
                     <div class="bg-[#242526] rounded-lg shadow">
                         <div class="p-4">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-2">
+
                                     <img src="/api/placeholder/40/40" alt="Profile" class="w-10 h-10 rounded-full">
                                     <div>
-                                        <p class="text-gray-200 font-semibold">Jane Smith</p>
-                                        <p class="text-gray-400 text-sm">2 hours ago</p>
+                                        <p class="text-gray-200 font-semibold"><?php echo $result["client_name"]?></p>
+                                        <p class="text-gray-400 text-sm"><?php echo $result["created_at"]?></p>
                                     </div>
                                 </div>
                                 <button class="text-gray-400 hover:bg-[#3A3B3C] p-2 rounded-full">
                                     <i class="fas fa-ellipsis-h"></i>
                                 </button>
                             </div>
-                            <p class="text-gray-200 mt-4">Just had an amazing day at the beach! 🌊</p>
-                            <img src="/api/placeholder/600/400" alt="Post" class="w-full h-[400px] object-cover rounded-lg mt-4">
+                            <p class="text-gray-200 mt-4"><?php echo $result["article_content"]?></p>
+                            <img src="<?php echo $result["image"]?>" alt="Post" class="w-full h-[400px] object-cover rounded-lg mt-4">
                             
                             <!-- Reactions -->
                             <div class="flex items-center justify-between mt-4 px-2">
@@ -197,10 +206,13 @@ session_start();
                             </div>
                         </div>
                     </div>
+                    <?php
+                    }
+                }
+                    ?>
                 </div>
             </div>
 
-            <!-- Right Sidebar -->
             <div class="col-span-3 right-4 w-[320px] pt-4">
                 <div class="bg-[#242526] rounded-lg p-4">
                     <h3 class="text-gray-200 font-semibold mb-4">Sponsored</h3>

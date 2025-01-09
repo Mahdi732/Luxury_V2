@@ -39,14 +39,62 @@ class Blog {
         $stmt->bindParam(':tag_id', $tag_id);
         $stmt->execute();
     }
+
+    public function affichePost(){
+    $stmt = $this->conn->prepare("SELECT 
+    ba.article_id,
+    ba.title AS article_title,
+    ba.created_at AS created_at,
+    ba.status AS statu,
+    ba.content AS article_content,
+    ba.image_url AS image,
+    th.name AS theme_name,
+    u.username AS client_name,
+    GROUP_CONCAT(t.name) AS tags
+    FROM blog_articles ba
+    JOIN theme th ON ba.theme_id = th.theme_id
+    JOIN users u ON ba.user_id = u.user_id
+    LEFT JOIN article_tags at ON ba.article_id = at.article_id
+    LEFT JOIN tags t ON at.tag_id = t.tag_id
+    GROUP BY ba.article_id
+    ");
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function searchByNAme($title){
+    $stmt = $this->conn->prepare("SELECT 
+    ba.article_id,
+    ba.title AS article_title,
+    ba.created_at AS created_at,
+    ba.status AS statu,
+    ba.content AS article_content,
+    ba.image_url AS image,
+    th.name AS theme_name,
+    u.username AS client_name,
+    GROUP_CONCAT(t.name) AS tags
+    FROM blog_articles ba
+    JOIN theme th ON ba.theme_id = th.theme_id
+    JOIN users u ON ba.user_id = u.user_id
+    LEFT JOIN article_tags at ON ba.article_id = at.article_id
+    LEFT JOIN tags t ON at.tag_id = t.tag_id
+    GROUP BY ba.article_id
+    WHERE article_title = :title
+    ");
+    $stmt->bindParam(':title', $title);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_SESSION["user_id"];
-    $name = $_POST["name"];
-    $content = $_POST["content"];
-    $theme = $_POST["theme"];
-    $imagePath = ""; 
+    $id = $_SESSION["user_id"] ?? null;
+    $name = $_POST["name"] ?? null;
+    $content = $_POST["content"] ?? null;
+    $theme = $_POST["theme"] ?? null;
+    $imagePath = "" ?? null; 
+    $search = $_POST["rechercheByName"];
 
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $upload_dir = "/uploads/"; 
@@ -57,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $file_name = uniqid() . "_" . basename($_FILES['image']['name']);
         $target_file = $target_dir . $file_name;
-        $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
+        $allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/WEBP'];
         if (in_array($_FILES['image']['type'], $allowed_types)) {
             if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
                 $imagePath = $upload_dir . $file_name;
@@ -83,5 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 }
+    $search = new Blog();
+    $search->searchByNAme($search);
 }
 ?>
