@@ -66,6 +66,7 @@ CREATE TABLE reviews (
 CREATE TABLE blog_articles (
     article_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
+    theme_id INT,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     image_url VARCHAR(255), 
@@ -74,6 +75,13 @@ CREATE TABLE blog_articles (
     status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
+
+CREATE TABLE theme {
+    theme_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(225),
+    description VARCHAR(225),
+    date_creation datetime
+}
 
 CREATE TABLE blog_comments (
     comment_id INT AUTO_INCREMENT PRIMARY KEY,

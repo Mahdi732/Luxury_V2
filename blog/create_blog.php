@@ -1,3 +1,9 @@
+<?php
+require_once('../blogclasses/themes.php');
+require_once('../blogclasses/post.classes.php');
+$getTheResultOfThems = new Theme();
+$result = $getTheResultOfThems->getAllThemes();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,12 +25,12 @@
                 <h2 class="text-xl font-bold text-center">Create Post</h2>
             </div>
 
-            <form class="p-4" action="../classes/tags.php" method="POST">
+            <form class="p-4" action="../blogclasses/post.classes.php" method="POST" enctype="multipart/form-data">
             <div class="flex flex-col space-y-2 mb-4">
                 <input 
                     type="search" 
-                    placeholder="Your name" 
-                    name="nameTags" 
+                    placeholder="Your title" 
+                    name="name" 
                     class="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
@@ -33,7 +39,7 @@
                 <div class="flex flex-col space-y-2">
                 <input 
                     type="search" 
-                    placeholder="Your name" 
+                    placeholder="Insert Title" 
                     name="nameTags" 
                     class="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                     hx-post="../classes/tags.php" 
@@ -46,40 +52,36 @@
                 </div>
                 <textarea 
                     class="w-full h-40 p-4 border rounded-lg resize-none mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="What's on your mind?"></textarea>
+                    placeholder="What's on your mind?"
+                    name="content"></textarea>
 
                 <div class="border rounded-lg p-4 mb-4">
-                    <h3 class="font-semibold mb-3">Add to your post</h3>
+                    <h3 class="font-semibold mb-3">Add picture your post</h3>
                     <div class="flex space-x-4">
-                        <button type="button" class="flex items-center space-x-2 text-green-600 hover:bg-green-50 p-2 rounded-lg">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    <div class="flex items-center justify-center w-full">
+                        <label class="w-full h-32 border-2 border-dashed border-accent rounded-lg flex flex-col items-center justify-center cursor-pointer hover:bg-deep-blue transition-colors">
+                            <svg class="w-8 h-8 text-accent mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                             </svg>
-                            <span>Photo</span>
-                        </button>
-                        <button type="button" class="flex items-center space-x-2 text-purple-600 hover:bg-purple-50 p-2 rounded-lg">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                            </svg>
-                            <span>Video</span>
-                        </button>
-                        <button type="button" class="flex items-center space-x-2 text-yellow-600 hover:bg-yellow-50 p-2 rounded-lg">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>Feeling</span>
-                        </button>
+                            <span class="text-sm text-accent">Choose one</span>
+                            <input type="file" name="image" accept="image/*" class="hidden">
+                        </label>
+                    </div>
                     </div>
                 </div>
 
                 <!-- Privacy Setting -->
                 <div class="mb-4">
-                    <select class="w-full p-2 border rounded-lg">
-                        <option value="public">🌎 Public</option>
+                    <select name="theme" class="w-full p-2 border rounded-lg">
+                        <?php
+                        foreach ($result as $results) {
+                        ?>
+                        <option value="<?php echo $results["theme_id"] ?>" class="text-black"><?php echo $results["name"] ?></option>
+                        <?php
+                        }
+                        ?>
                     </select>
                 </div>
-
-                <!-- Post Button -->
                 <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                     Post
                 </button>
