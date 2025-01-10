@@ -61,7 +61,7 @@ $result = $getTheResultOfThems->getAllThemes();
                             </div>';
                         }else {
                             echo '<button class="px-8 py-4 bg-white text-black text-sm hover:bg-zinc-100">
-                                <a href="login.php">Logni NOW</a>
+                                <a href="../pages/login.php">Logni NOW</a>
                               </button>';
                         }
                     

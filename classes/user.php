@@ -66,12 +66,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password_log = $_POST["password_log"] ?? null;
     $log_out = $_POST["log_out"] ?? null;
 
-    if (!empty($username) && !empty($email) && !empty($password)) {
+    if (isset($username) && isset($email) && isset($password)) {
         $sign_up = new User();
         $sign_up->signUp($username, $email, $password);
     }
 
-    if (!empty($email_log) && !empty($password_log)) {
+    if (isset($email_log) && isset($password_log)) {
         $sign_in = new User();
         $sign_in->signIn($email_log, $password_log);
     }

@@ -57,35 +57,12 @@ class Blog {
     LEFT JOIN article_tags at ON ba.article_id = at.article_id
     LEFT JOIN tags t ON at.tag_id = t.tag_id
     GROUP BY ba.article_id
-    ");
+    limit 9");
 
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function searchByNAme($title){
-    $stmt = $this->conn->prepare("SELECT 
-    ba.article_id,
-    ba.title AS article_title,
-    ba.created_at AS created_at,
-    ba.status AS statu,
-    ba.content AS article_content,
-    ba.image_url AS image,
-    th.name AS theme_name,
-    u.username AS client_name,
-    GROUP_CONCAT(t.name) AS tags
-    FROM blog_articles ba
-    JOIN theme th ON ba.theme_id = th.theme_id
-    JOIN users u ON ba.user_id = u.user_id
-    LEFT JOIN article_tags at ON ba.article_id = at.article_id
-    LEFT JOIN tags t ON at.tag_id = t.tag_id
-    GROUP BY ba.article_id
-    WHERE article_title = :title
-    ");
-    $stmt->bindParam(':title', $title);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -94,7 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content = $_POST["content"] ?? null;
     $theme = $_POST["theme"] ?? null;
     $imagePath = "" ?? null; 
-    $search = $_POST["rechercheByName"];
 
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $upload_dir = "/uploads/"; 
@@ -110,13 +86,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
                 $imagePath = $upload_dir . $file_name;
             } else {
-                die("Error uploading the image. Please try again.");
+                echo "Error uploading the image. Please try again.";
+                exit();
             }
         } else {
-            die("Invalid file type. Please upload a JPEG, PNG, or GIF image.");
+            echo "Invalid file type. Please upload a JPEG, PNG, or GIF image.";
+            exit();
         }
     } else {
-        die("Image upload failed. Please try again.");
+        echo "Image upload failed. Please try again.";
+        exit();
     }
 
     $blog = new Blog();
@@ -131,7 +110,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 }
-    $search = new Blog();
-    $search->searchByNAme($search);
+
 }
 ?>

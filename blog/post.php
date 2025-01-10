@@ -1,6 +1,6 @@
 <?php
 require_once('../blogclasses/post.classes.php');
-
+require_once('../blogclasses/search.php');
 $affichePost = new Blog();
 $result = $affichePost->affichePost();
 
@@ -73,7 +73,7 @@ $result = $affichePost->affichePost();
                             </div>';
                         }else {
                             echo '<button class="px-8 py-4 bg-white text-black text-sm hover:bg-zinc-100">
-                                <a href="login.php">Logni NOW</a>
+                                <a href="../pages/login.php">Logni NOW</a>
                               </button>';
                         }
                     
@@ -129,7 +129,7 @@ $result = $affichePost->affichePost();
                     <div class="p-4">
                         <div class="flex items-center space-x-2">
                             <input type="search"
-                            hx-post="../blogclasses/post.classes.php"
+                            hx-post="../blogclasses/search.php"
                             hx-trigger="keyup changed"
                             hx-swap="innerHTML"
                             hx-target="#idContainer" name="rechercheByName" placeholder="Find The Post That You Want " class="bg-[#3A3B3C] rounded-full py-2 px-4 text-gray-200 placeholder-gray-400 w-full">
@@ -172,7 +172,7 @@ $result = $affichePost->affichePost();
                                     <i class="fas fa-ellipsis-h"></i>
                                 </button>
                             </div>
-                            <p class="text-gray-200 mt-4"><?php echo $result["article_content"]?></p>
+                            <p class="text-gray-200 mt-4"><?php echo $result["article_title"]?></p>
                             <img src="<?php echo $result["image"]?>" alt="Post" class="w-full h-[400px] object-cover rounded-lg mt-4">
                             
                             <!-- Reactions -->
@@ -210,6 +210,25 @@ $result = $affichePost->affichePost();
                     }
                 }
                     ?>
+                </div>
+                <div class="flex gap-2 p-4 justify-center">
+                    <div class="flex gap-2 p-4 justify-center">
+                        <?php
+                        $getNumberOfPages = new SearchFilter();
+                        $getResultOfThePages = $getNumberOfPages->pageNumber();
+
+                        for ($i = 0; $i < $getResultOfThePages; $i++) { 
+                            echo '
+                            <form hx-post="../blogclasses/search.php" 
+                                  hx-trigger="submit"
+                                  hx-swap="innerHTML"
+                                  hx-target="#idContainer">
+                                <input type="hidden" name="number" value="'. $i .'">
+                                <button type="submit" class="pagination-button w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white">'. ($i + 1) .'</button>
+                            </form>';
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
 

@@ -79,7 +79,7 @@ require_once('../classes/menu.php');
                 <div class="hidden lg:flex items-center gap-16">
                     <a href="#fleet" class="text-sm hover:text-zinc-300">FLEET</a>
                     <a href="#experience" class="text-sm hover:text-zinc-300">EXPERIENCE</a>
-                    <a href="post.php" class="text-sm hover:text-zinc-300">POST</a>
+                    <a href="../blog/post.php" class="text-sm hover:text-zinc-300">POST</a>
                     <?php
                         if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
                             echo '<div class="flex items-center gap-6">
