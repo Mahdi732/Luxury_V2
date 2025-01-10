@@ -81,7 +81,6 @@ require_once('../blogclasses/search.php');
                 </div>
             </div>
         </aside>
-
         <main class="flex-1 overflow-auto">
             <header class="glass-light border-b border-white/10 sticky top-0 z-50">
                 <div class="flex items-center justify-between p-4">

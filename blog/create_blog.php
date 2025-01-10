@@ -122,7 +122,6 @@ $result = $getTheResultOfThems->getAllThemes();
                     </div>
                 </div>
 
-                <!-- Privacy Setting -->
                 <div class="mb-4">
                     <select name="theme" class="w-full p-2 border rounded-lg">
                         <?php

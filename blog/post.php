@@ -103,7 +103,6 @@ $result = $affichePost->affichePost();
                 </div>
             </div>
 
-            <!-- Main Feed -->
             <div class="col-span-6 col-start-4 px-4">
                 <!-- Stories -->
                 <div class="flex space-x-2 py-4 overflow-x-auto">
