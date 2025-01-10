@@ -1,6 +1,8 @@
 <?php
 require_once('../blogclasses/post.classes.php');
 require_once('../blogclasses/search.php');
+require_once('../blogclasses/comment.php');
+session_start();
 $affichePost = new Blog();
 $result = $affichePost->affichePost();
 
@@ -155,59 +157,90 @@ $result = $affichePost->affichePost();
                 <div id="idContainer" class="space-y-4">
                     <?php
                     foreach ($result as $result) {
-                    if ($result["statu"] === 'approved') {
                     ?>
-                    <div class="bg-[#242526] rounded-lg shadow">
-                        <div class="p-4">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-2">
+<div class="bg-[#242526] rounded-lg shadow">
+    <div class="p-4">
+        <!-- Existing post content -->
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <img src="/api/placeholder/40/40" alt="Profile" class="w-10 h-10 rounded-full">
+                <div>
+                    <p class="text-gray-200 font-semibold"><?php echo $result["client_name"]?></p>
+                    <p class="text-gray-400 text-sm"><?php echo $result["created_at"]?></p>
+                </div>
+            </div>
+            <button class="text-gray-400 hover:bg-[#3A3B3C] p-2 rounded-full">
+                <i class="fas fa-ellipsis-h"></i>
+            </button>
+        </div>
+        <p class="text-gray-200 mt-4"><?php echo $result["article_title"]?></p>
+        <img src="<?php echo $result["image"]?>" alt="Post" class="w-full h-[400px] object-cover rounded-lg mt-4">
+        
+        <!-- Reactions -->
+        <div class="flex items-center justify-between mt-4 px-2">
+            <div class="flex items-center space-x-1">
+                <span class="text-red-800 bg-red-800 rounded-full p-1"><i class="fas fa-thumbs-up text-xs text-white"></i></span>
+                <span class="text-gray-400 text-sm">1.2K</span>
+            </div>
+            <div class="flex space-x-2 text-sm text-gray-400">
+                <span>234 comments</span>
+                <span>56 shares</span>
+            </div>
+        </div>
 
-                                    <img src="/api/placeholder/40/40" alt="Profile" class="w-10 h-10 rounded-full">
-                                    <div>
-                                        <p class="text-gray-200 font-semibold"><?php echo $result["client_name"]?></p>
-                                        <p class="text-gray-400 text-sm"><?php echo $result["created_at"]?></p>
-                                    </div>
-                                </div>
-                                <button class="text-gray-400 hover:bg-[#3A3B3C] p-2 rounded-full">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
-                            </div>
-                            <p class="text-gray-200 mt-4"><?php echo $result["article_title"]?></p>
-                            <img src="<?php echo $result["image"]?>" alt="Post" class="w-full h-[400px] object-cover rounded-lg mt-4">
-                            
-                            <!-- Reactions -->
-                            <div class="flex items-center justify-between mt-4 px-2">
-                                <div class="flex items-center space-x-1">
-                                    <span class="text-red-800 bg-red-800 rounded-full p-1"><i class="fas fa-thumbs-up text-xs text-white"></i></span>
-                                    <span class="text-gray-400 text-sm">1.2K</span>
-                                </div>
-                                <div class="flex space-x-2 text-sm text-gray-400">
-                                    <span>234 comments</span>
-                                    <span>56 shares</span>
-                                </div>
-                            </div>
+        <div class="border-t border-[#3A3B3C] mt-4 pt-1">
+            <div class="flex justify-between py-1">
+                <button class="flex items-center justify-center space-x-2 hover:bg-[#3A3B3C] px-6 py-2 rounded-lg flex-1">
+                    <i class="far fa-thumbs-up text-gray-400"></i>
+                    <span class="text-gray-400">Like</span>
+                </button>
+                <button class="flex items-center justify-center space-x-2 hover:bg-[#3A3B3C] px-6 py-2 rounded-lg flex-1">
+                    <i class="far fa-comment text-gray-400"></i>
+                    <span class="text-gray-400">Comment</span>
+                </button>
+                <button class="flex items-center justify-center space-x-2 hover:bg-[#3A3B3C] px-6 py-2 rounded-lg flex-1">
+                    <i class="fas fa-share text-gray-400"></i>
+                    <span class="text-gray-400">Share</span>
+                </button>
+            </div>
+        </div>
 
-                            <!-- Action Buttons -->
-                            <div class="border-t border-[#3A3B3C] mt-4 pt-1">
-                                <div class="flex justify-between py-1">
-                                    <button class="flex items-center justify-center space-x-2 hover:bg-[#3A3B3C] px-6 py-2 rounded-lg flex-1">
-                                        <i class="far fa-thumbs-up text-gray-400"></i>
-                                        <span class="text-gray-400">Like</span>
-                                    </button>
-                                    <button class="flex items-center justify-center space-x-2 hover:bg-[#3A3B3C] px-6 py-2 rounded-lg flex-1">
-                                        <i class="far fa-comment text-gray-400"></i>
-                                        <span class="text-gray-400">Comment</span>
-                                    </button>
-                                    <button class="flex items-center justify-center space-x-2 hover:bg-[#3A3B3C] px-6 py-2 rounded-lg flex-1">
-                                        <i class="fas fa-share text-gray-400"></i>
-                                        <span class="text-gray-400">Share</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div class="mt-4">
+            <form method="POST" action="../blogclasses/submit_comment.php">
+                <input type="hidden" name="article_id" value="<?php echo $result['article_id']; ?>">
+                <textarea name="comment" class="w-full bg-[#3A3B3C] text-gray-200 rounded-lg p-2" placeholder="Write a comment..." required></textarea>
+                <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg">Submit Comment</button>
+            </form>
+        </div>
+
+        <div class="mt-4">
+            <?php
+            $comment = new Comment();
+            $comments = $comment->getComments($result['article_id']);
+            foreach ($comments as $comment) {
+                echo '<div class="bg-[#3A3B3C] p-2 rounded-lg mt-2">';
+        echo '<p class="text-gray-200 font-semibold">' . htmlspecialchars($comment['username']) . '</p>';
+        echo '<p class="text-gray-200">' . htmlspecialchars($comment['comment']) . '</p>';
+        echo '<p class="text-gray-400 text-sm">' . $comment['created_at'] . '</p>';
+        if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $comment['user_id']) {
+            echo '<button class="edit-comment-btn text-blue-500 text-sm" data-comment-id="' . $comment['comment_id'] . '">Edit</button>';
+        }
+        echo '</div>';
+            }
+            ?>
+            <div id="edit-comment-form" class="hidden mt-4">
+                <form method="POST" action="../blogclasses/edit_comment.php">
+                    <input type="hidden" name="comment_id" id="edit-comment-id">
+                    <textarea name="comment" id="edit-comment-text" class="w-full bg-[#3A3B3C] text-gray-200 rounded-lg p-2" required></textarea>
+                    <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg">Save Changes</button>
+                    <button type="button" id="cancel-edit-btn" class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-lg">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
                     <?php
-                    }
+                    
                 }
                     ?>
                 </div>
@@ -216,7 +249,6 @@ $result = $affichePost->affichePost();
                         <?php
                         $getNumberOfPages = new SearchFilter();
                         $getResultOfThePages = $getNumberOfPages->pageNumber();
-
                         for ($i = 0; $i < $getResultOfThePages; $i++) { 
                             echo '
                             <form hx-post="../blogclasses/search.php" 
@@ -269,4 +301,29 @@ $result = $affichePost->affichePost();
         </div>
     </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editButtons = document.querySelectorAll('.edit-comment-btn');
+        const editForm = document.getElementById('edit-comment-form');
+        const editCommentId = document.getElementById('edit-comment-id');
+        const editCommentText = document.getElementById('edit-comment-text');
+        const cancelEditBtn = document.getElementById('cancel-edit-btn');
+
+        editButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const commentId = this.getAttribute('data-comment-id');
+                const commentText = this.parentElement.querySelector('p.text-gray-200').innerText;
+
+                editCommentId.value = commentId;
+                editCommentText.value = commentText;
+
+                editForm.classList.remove('hidden');
+            });
+        });
+
+        cancelEditBtn.addEventListener('click', function () {
+            editForm.classList.add('hidden');
+        });
+    });
+</script>
 </html>

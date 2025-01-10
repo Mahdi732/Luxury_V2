@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once('../connection/connect.php');
 class Blog {
     private $conn;
@@ -51,17 +50,21 @@ class Blog {
     th.name AS theme_name,
     u.username AS client_name,
     GROUP_CONCAT(t.name) AS tags
-    FROM blog_articles ba
-    JOIN theme th ON ba.theme_id = th.theme_id
-    JOIN users u ON ba.user_id = u.user_id
-    LEFT JOIN article_tags at ON ba.article_id = at.article_id
-    LEFT JOIN tags t ON at.tag_id = t.tag_id
-    GROUP BY ba.article_id
-    limit 9");
+FROM blog_articles ba
+JOIN theme th ON ba.theme_id = th.theme_id
+JOIN users u ON ba.user_id = u.user_id
+LEFT JOIN article_tags at ON ba.article_id = at.article_id
+LEFT JOIN tags t ON at.tag_id = t.tag_id
+WHERE ba.status = 'approved'
+GROUP BY ba.article_id
+LIMIT 9 ;
+");
 
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    
 
 }
 
